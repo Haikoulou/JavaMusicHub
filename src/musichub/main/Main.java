@@ -1,5 +1,5 @@
 package musichub.main;
-import musichub.business.*; //Hello c uli
+import musichub.business.*;
 import java.util.*;
 
 import java.beans.XMLEncoder;
