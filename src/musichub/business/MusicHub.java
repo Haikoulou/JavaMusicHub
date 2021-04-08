@@ -37,11 +37,11 @@ public class MusicHub {
 	
 	private XMLHandler xmlHandler = new XMLHandler();
 	
-	public MusicHub () {
+	public MusicHub (ServerConnection conn) {
 		albums = new LinkedList<Album>();
 		playlists = new LinkedList<PlayList>();
 		elements = new LinkedList<AudioElement>();
-		this.loadElements();
+		this.loadElements(conn);
 		this.loadAlbums();
 		this.loadPlaylists();
 	}
@@ -277,6 +277,10 @@ public class MusicHub {
 				}
 			}  
 		}
+	}
+	
+	private void loadElementsServer(ServerConnection conn) {
+		
 	}
 
 
