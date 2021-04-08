@@ -38,11 +38,13 @@ public class MusicHub {
 	
 	private XMLHandler xmlHandler = new XMLHandler();
 	
-	public MusicHub () {
+	public MusicHub () throws ConnectionFailureException {
 		this.albums = new LinkedList<Album>();
 		this.playlists = new LinkedList<PlayList>();
 		this.elements = new LinkedList<AudioElement>();
 		this.conn = new ServerConnection("localhost", 4444);
+		 
+		if (!this.conn.isConnected()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
 		
 		/*
 		this.loadElements();

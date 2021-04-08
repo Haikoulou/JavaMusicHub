@@ -6,8 +6,14 @@ import java.util.*;
 public class Main
 {
  	public static void main (String[] args) {
-
-		MusicHub theHub = new MusicHub ();
+ 		
+ 		MusicHub theHub = null;
+ 		try {
+ 			theHub = new MusicHub ();
+ 		} catch (ConnectionFailureException ex){
+			System.out.println (ex.getMessage());
+			System.exit(-1);
+		}
 		
 		System.out.println("Type h for available commands");
 		
