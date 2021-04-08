@@ -29,6 +29,7 @@ public class MusicHub {
 	private List<Album> albums;
 	private List<PlayList> playlists;
 	private List<AudioElement> elements;
+	private ServerConnection conn;
 	
 	public static final String DIR = System.getProperty("user.dir");
 	public static final String ALBUMS_FILE_PATH = DIR + "\\files\\albums.xml";
@@ -37,11 +38,13 @@ public class MusicHub {
 	
 	private XMLHandler xmlHandler = new XMLHandler();
 	
-	public MusicHub (ServerConnection conn) {
-		albums = new LinkedList<Album>();
-		playlists = new LinkedList<PlayList>();
-		elements = new LinkedList<AudioElement>();
-		this.loadElements(conn);
+	public MusicHub () {
+		this.albums = new LinkedList<Album>();
+		this.playlists = new LinkedList<PlayList>();
+		this.elements = new LinkedList<AudioElement>();
+		this.conn = new ServerConnection("localhost", 4444);
+		
+		this.loadElements();
 		this.loadAlbums();
 		this.loadPlaylists();
 	}
@@ -279,8 +282,8 @@ public class MusicHub {
 		}
 	}
 	
-	private void loadElementsServer(ServerConnection conn) {
-		
+	private void loadSongsServer() {
+		AudioElement newElement = new Song ();
 	}
 
 
