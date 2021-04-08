@@ -1,12 +1,13 @@
 package musichub.business;
 
+import java.util.*;
 import java.io.*;
 import java.net.*;
 
 public class ServerConnection { //Non-functionnal
-	private ObjectOutputStream output;
-	private ObjectInputStream input;
-	private Socket socket;
+	private ObjectOutputStream output = null;
+	private ObjectInputStream input = null;
+	private Socket socket = null;
 	
 	public ServerConnection(String ip, int port) {
 		try {
@@ -23,19 +24,101 @@ public class ServerConnection { //Non-functionnal
 		}
 	}
 	
-	public ObjectInputStream sendRequest(String request) {
+	public List<Song> requestSongs(){
+		List<Song> list = new ArrayList<>();
 		try {
-			this.output.writeObject(request);
+			this.output.writeChars("SONGS");
+			list = (List<Song>) this.input.readObject();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		catch  (ClassNotFoundException cfe) {
+			cfe.printStackTrace();
+		}
+		
+		this.input = null;
+		this.output = null;
+		
+		return list;
+	}
+	
+	public List<AudioBook> requestAudioBooks(){
+		List<AudioBook> list = new ArrayList<>();
+		try {
+			this.output.writeChars("AUDIOBOOKS");
+			list = (List<AudioBook>) this.input.readObject();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		catch  (ClassNotFoundException cfe) {
+			cfe.printStackTrace();
+		}
+		
+		this.input = null;
+		this.output = null;
+		
+		return list;
+	}
+	
+	public List<Album> requestAlbums(){
+		List<Album> list = new ArrayList<>();
+		try {
+			this.output.writeChars("ALBUMS");
+			list = (List<Album>) this.input.readObject();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		catch  (ClassNotFoundException cfe) {
+			cfe.printStackTrace();
+		}
+		
+		this.input = null;
+		this.output = null;
+		
+		return list;
+	}
+	
+	public List<PlayList> requestPlaylists(){
+		List<PlayList> list = new ArrayList<>();
+		try {
+			this.output.writeChars("PLAYLISTS");
+			list = (List<PlayList>) this.input.readObject();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		catch  (ClassNotFoundException cfe) {
+			cfe.printStackTrace();
+		}
+		
+		this.input = null;
+		this.output = null;
+		
+		return list;
+	}
+	
+	public boolean isConnected() {
+		return this.socket.isConnected();
+	}
+	
+	public void CloseConnection() {
+		try {
+			this.input.close();
+			this.output.close();
+			this.socket.close();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		
-		return this.input;
-	}
-	
-	public void CloseConnection() throws IOException {
-		this.input.close();
-		this.output.close();
-		this.socket.close();
 	}
 }
