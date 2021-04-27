@@ -20,6 +20,7 @@ public class Main
 		
 		music.play();
 		
+ 		
  		MusicHub theHub = new MusicHub ();
 		
 		System.out.println("Type h for available commands");

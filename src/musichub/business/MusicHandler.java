@@ -9,6 +9,15 @@ public class MusicHandler {
 	
 	private Clip clip;
 	
+	
+    /** 
+     * <b>MusicHandler constructor</b> 
+     * 
+     *  This constructor creates a Clip object and loads a .wav file in it
+     * 
+     * @param String filepath : 
+     *     path to the .wav file that will be loaded
+     */ 
 	public MusicHandler(String filepath) {
 		try {
 			File file = new File(filepath);
@@ -22,6 +31,42 @@ public class MusicHandler {
 		}
 	}
 	
+    /** 
+     * <b>MusicHandler rewind</b> 
+     * 
+     *  Sets the audio back by 5 seconds
+     * 
+     */
+	public void rewind() {
+		try{
+			long position = clip.getMicrosecondPosition();
+			clip.setMicrosecondPosition(position-5000000);
+		} catch(Exception e) {
+			//TODO: handle exception
+		}
+	}
+	
+    /** 
+     * <b>MusicHandler fastForward</b> 
+     * 
+     *  Sets the audio forward by 5 seconds
+     * 
+     */
+	public void fastForward() {
+		try{
+			long position = clip.getMicrosecondPosition();
+			clip.setMicrosecondPosition(position+5000000);
+		} catch(Exception e) {
+			//TODO: handle exception
+		}
+	}
+	
+    /** 
+     * <b>MusicHandler play</b> 
+     * 
+     *  Plays the audio if paused, does nothing if the audio is already playing
+     * 
+     */
 	public void play() {
 		try {
 			clip.start();
@@ -30,6 +75,12 @@ public class MusicHandler {
 		}
 	}
 	
+    /** 
+     * <b>MusicHandler pause</b> 
+     * 
+     *  Pauses the lecture of the audio
+     * 
+     */
 	public void pause() {
 		try {
 			clip.stop();
@@ -38,6 +89,12 @@ public class MusicHandler {
 		}
 	}
 	
+    /** 
+     * <b>MusicHandler reset</b> 
+     * 
+     *  Audio starts over from the beginning 
+     * 
+     */
 	public void reset() {
 		try {
 			clip.setMicrosecondPosition(0);
@@ -46,57 +103,17 @@ public class MusicHandler {
 		}
 	}
 	
+    /** 
+     * <b>MusicHandler close</b> 
+     * 
+     *  closes the audio clip object
+     * 
+     */
 	public void close() {
 		try {
 			clip.close();
 		} catch (Exception e) {
 			// TODO: handle exception
-		}
-	}
-	
-	public static void Music(String filepath){
-	
-		try{
-			Scanner scanner = new Scanner(System.in);
-
-			File file = new File(filepath);
-
-			AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-
-			Clip clip = AudioSystem.getClip();
-
-			clip.open(audioStream);
-			String response = "";
-
-			while(!response.equals("Q")) {
-
-				System.out.println("P = play, S = Stop, R = Reset, Q = Quit");
-				System.out.print("Enter your choice: ");
-
-				response = scanner.next();
-				response = response.toUpperCase();
-
-				switch(response) {
-
-					case ("P"): clip.start();
-					break;
-
-					case ("S"): clip.stop();
-					break;
-
-					case ("R"): clip.setMicrosecondPosition(0);
-					break;
-				
-					case ("Q"): clip.close();
-					break;
-				
-					default: System.out.println("Not a valid response");
-				}
-			}
-			scanner.close();
-		}
-		catch(Exception e) {
-			JOptionPane.showMessageDialog(null, "Error can't play music");
 		}
 	}
 }
