@@ -2,20 +2,27 @@ package musichub.main;
 import musichub.business.*;
 import java.util.*;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import java.beans.XMLEncoder;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.BufferedOutputStream;
-	
+
 //Test for commit !
 //Second test for commit !
 public class Main
 {
  	public static void main (String[] args) {
-
-		MusicHub theHub = new MusicHub ();
+ 		
+		MusicHandler music = new MusicHandler("files/Sister-Sara_s-Theme.wav");
+		
+		music.play();
+		
+ 		MusicHub theHub = new MusicHub ();
 		
 		System.out.println("Type h for available commands");
-		
 		
 		Scanner scan = new Scanner(System.in);
 		String choice = scan.nextLine();

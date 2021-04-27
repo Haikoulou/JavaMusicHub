@@ -5,9 +5,56 @@ import java.util.Scanner;
 import javax.sound.sampled.*;
 import javax.swing.JOptionPane;
 
-public class PlayMusic {
+public class MusicHandler {
 	
-	public static void initMusic(String filepath){
+	private Clip clip;
+	
+	public MusicHandler(String filepath) {
+		try {
+			File file = new File(filepath);
+			AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+
+			clip = AudioSystem.getClip();
+			clip.open(stream);
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "Error : can't load music");
+		}
+	}
+	
+	public void play() {
+		try {
+			clip.start();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public void pause() {
+		try {
+			clip.stop();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public void reset() {
+		try {
+			clip.setMicrosecondPosition(0);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public void close() {
+		try {
+			clip.close();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	
+	public static void Music(String filepath){
 	
 		try{
 			Scanner scanner = new Scanner(System.in);
