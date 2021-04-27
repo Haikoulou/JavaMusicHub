@@ -29,6 +29,7 @@ public class MusicHub {
 	private List<Album> albums;
 	private List<PlayList> playlists;
 	private List<AudioElement> elements;
+	private ServerConnection conn;
 	
 	public static final String DIR = System.getProperty("user.dir");
 	public static final String ALBUMS_FILE_PATH = DIR + "\\files\\albums.xml";
@@ -37,13 +38,25 @@ public class MusicHub {
 	
 	private XMLHandler xmlHandler = new XMLHandler();
 	
-	public MusicHub () {
-		albums = new LinkedList<Album>();
-		playlists = new LinkedList<PlayList>();
-		elements = new LinkedList<AudioElement>();
+	public MusicHub () throws ConnectionFailureException {
+		this.albums = new LinkedList<Album>();
+		this.playlists = new LinkedList<PlayList>();
+		this.elements = new LinkedList<AudioElement>();
+		this.conn = new ServerConnection("localhost", 4444);
+		 
+		if (!this.conn.isConnected()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
+
+		/*
 		this.loadElements();
 		this.loadAlbums();
-		this.loadPlaylists();
+		this.loadPlaylists();*/
+		
+		this.loadSongsServer();
+		this.loadAudioBooksServer();
+		this.loadAlbumsServer();
+		this.loadPlaylistsServer();
+		
+		this.conn.CloseConnection();
 	}
 	
 	public void addElement(AudioElement element) {
@@ -276,6 +289,46 @@ public class MusicHub {
 					}
 				}
 			}  
+		}
+	}
+	
+	private void loadSongsServer() {
+		List<Song> list = new ArrayList<>();
+		list = conn.requestSongs(); //Request list of songs from the server
+		if (list.isEmpty()) return;
+		
+		for (Song songList : list) { //Read the new list to store it in memory
+			this.addElement(songList);
+		}
+	}
+	
+	private void loadAudioBooksServer() {
+		List<AudioBook> list = new ArrayList<>();
+		list = conn.requestAudioBooks(); //Request list of songs from the server
+		if (list.isEmpty()) return;
+		
+		for (AudioBook bookList : list) { //Read the new list to store it in memory
+			this.addElement(bookList);
+		}
+	}
+	
+	private void loadPlaylistsServer() {
+		List<PlayList> list = new ArrayList<>();
+		list = conn.requestPlaylists(); //Request list of songs from the server
+		if (list.isEmpty()) return;
+		
+		for (PlayList playlistList : list) { //Read the new list to store it in memory
+			this.addPlaylist(playlistList);
+		}
+	}
+	
+	private void loadAlbumsServer() {
+		List<Album> list = new ArrayList<>();
+		list = conn.requestAlbums(); //Request list of songs from the server
+		if (list.isEmpty()) return;
+		
+		for (Album albumList : list) { //Read the new list to store it in memory
+			this.addAlbum(albumList);
 		}
 	}
 
