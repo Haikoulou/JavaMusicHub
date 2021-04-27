@@ -45,7 +45,7 @@ public class MusicHub {
 		this.conn = new ServerConnection("localhost", 4444);
 		 
 		if (!this.conn.isConnected()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
-		
+
 		/*
 		this.loadElements();
 		this.loadAlbums();
