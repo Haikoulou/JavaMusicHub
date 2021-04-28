@@ -108,6 +108,13 @@ public class ServerConnection { //Non-functionnal
 		return list;
 	}
 	
+	public boolean isSetup() {
+		if(this.socket == null)
+			return false;
+		else
+			return true;
+	}
+	
 	public boolean isConnected() {
 		return this.socket.isConnected();
 	}

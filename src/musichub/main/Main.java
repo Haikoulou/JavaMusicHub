@@ -11,7 +11,7 @@ public class Main
  		try {
  			theHub = new MusicHub ();
  		} catch (ConnectionFailureException ex){
-			System.out.println (ex.getMessage());
+			System.out.println ("Erreur lors de la configuration du programme. Arrêt...");
 			System.exit(-1);
 		}
 		
