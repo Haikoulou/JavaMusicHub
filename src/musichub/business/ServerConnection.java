@@ -10,8 +10,8 @@ public class ServerConnection { //Non-functionnal
 	private Socket socket = null;
 	
 	public ServerConnection(String ip, int port) {
+		System.out.println("Trying to reach server...");
 		try {
-			System.out.println("Trying to reach server...");
 			this.socket = new Socket(ip, port);
 			System.out.println("Client connected");
 			this.output = new ObjectOutputStream(socket.getOutputStream());

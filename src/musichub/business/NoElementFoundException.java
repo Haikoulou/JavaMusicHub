@@ -2,9 +2,9 @@ package musichub.business;
 
 import java.lang.Exception;
 
-public class NoElementFoundException extends Exception {
+public class NoElementFoundException extends LogException {
 
 	public NoElementFoundException (String msg) {
-		super(msg);
+		super("WARNING", msg);
 	}
 }

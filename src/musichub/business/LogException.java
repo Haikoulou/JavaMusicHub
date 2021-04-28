@@ -1,5 +1,6 @@
 package musichub.business;
 
+import java.lang.Exception;
 import java.io.IOException;
 import java.util.logging.*;
 
@@ -15,25 +16,38 @@ import java.util.logging.*;
 
 /* Implementation of the error logging system*/
 
-public class LogException{
+public class LogException extends Exception{
 	
-	public static void main(String[] args) {
+	public LogException(String level, String msg) {
 		
 		//gets the logger that conducts the message to the handler
 		Logger logger = Logger.getLogger("logger"); 
 		
 		//A level is associated to each logger:
-		logger.log(Level.SEVERE, "Severe error");
-		logger.log(Level.WARNING, "Warning message");
-		logger.log(Level.CONFIG, "Configuration error");
-		logger.log(Level.INFO, "Information message");
+		switch (level){
+		case "SEVERE":
+			logger.log(Level.SEVERE, msg);
+			break;
+		case "WARNING":
+			logger.log(Level.WARNING, msg);
+			break;
+		case "CONFIG":
+			logger.log(Level.CONFIG, msg);
+			break;
+		case "INFO":
+			logger.log(Level.INFO, msg);
+			break;
+		default:
+			logger.log(Level.INFO, msg);
+			break;
+		}
 		
 		
 		/*FileHandler allows writing runtime errors, warnings and information in the file "errors.txt"
 		* Their corresponding time stamp (date and time) are displayed by default since we use a logger.
 		*/
 		try {
-			FileHandler filehandler = new FileHandler("errors.txt"); 
+			FileHandler filehandler = new FileHandler("files/errors.txt"); 
 			logger.addHandler(filehandler);
 		}
 		catch(SecurityException e){

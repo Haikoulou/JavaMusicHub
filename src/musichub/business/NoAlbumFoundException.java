@@ -1,10 +1,8 @@
 package musichub.business;
 
-import java.lang.Exception;
-
-public class NoAlbumFoundException extends Exception {
+public class NoAlbumFoundException extends LogException {
 
 	public NoAlbumFoundException (String msg) {
-		super(msg);
+		super("WARNING", msg);
 	}
 }
