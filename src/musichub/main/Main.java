@@ -2,11 +2,25 @@ package musichub.main;
 import musichub.business.*;
 import java.util.*;
 
+<<<<<<< HEAD
 	
+=======
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
+import java.beans.XMLEncoder;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.BufferedOutputStream;
+
+//Test for commit !
+//Second test for commit !
+>>>>>>> refs/remotes/origin/music
 public class Main
 {
  	public static void main (String[] args) {
  		
+<<<<<<< HEAD
  		MusicHub theHub = null;
  		try {
  			theHub = new MusicHub ();
@@ -14,9 +28,16 @@ public class Main
 			System.out.println ("Erreur lors de la configuration du programme. Arrêt...");
 			System.exit(-1);
 		}
+=======
+		MusicHandler music = new MusicHandler("files/Sister-Sara_s-Theme.wav");
+		
+		music.play();
+		
+ 		
+ 		MusicHub theHub = new MusicHub ();
+>>>>>>> refs/remotes/origin/music
 		
 		System.out.println("Type h for available commands");
-		
 		
 		Scanner scan = new Scanner(System.in);
 		String choice = scan.nextLine();
