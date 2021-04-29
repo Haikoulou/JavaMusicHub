@@ -17,7 +17,7 @@ public class Main
  		
 		MusicHandler music = new MusicHandler("files/Sister-Sara_s-Theme.wav");
 		
-		music.play();
+		//music.play();
 		
 		
 		System.out.println("Type h for available commands");

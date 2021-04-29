@@ -42,7 +42,7 @@ public class MusicHub {
 		this.albums = new LinkedList<Album>();
 		this.playlists = new LinkedList<PlayList>();
 		this.elements = new LinkedList<AudioElement>();
-		this.conn = new ServerConnection("localhost", 4444);
+		this.conn = new ServerConnection("192.168.1.18", 6667);
 		if(!this.conn.isSetup()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
 		 
 		if (!this.conn.isConnected()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");

@@ -27,7 +27,9 @@ public class ServerConnection { //Non-functionnal
 	public List<Song> requestSongs(){
 		List<Song> list = new ArrayList<>();
 		try {
-			this.output.writeChars("SONGS");
+			String outputString = new String("SONGS");
+			this.output.writeObject(outputString);
+			//this.output.writeChars("SONGS");
 			list = (List<Song>) this.input.readObject();
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
@@ -48,7 +50,8 @@ public class ServerConnection { //Non-functionnal
 	public List<AudioBook> requestAudioBooks(){
 		List<AudioBook> list = new ArrayList<>();
 		try {
-			this.output.writeChars("AUDIOBOOKS");
+			String outputString = new String("AUDIOBOOKS");
+			this.output.writeObject(outputString);
 			list = (List<AudioBook>) this.input.readObject();
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
@@ -69,7 +72,8 @@ public class ServerConnection { //Non-functionnal
 	public List<Album> requestAlbums(){
 		List<Album> list = new ArrayList<>();
 		try {
-			this.output.writeChars("ALBUMS");
+			String outputString = new String("ALBUMS");
+			this.output.writeObject(outputString);
 			list = (List<Album>) this.input.readObject();
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
@@ -90,7 +94,8 @@ public class ServerConnection { //Non-functionnal
 	public List<PlayList> requestPlaylists(){
 		List<PlayList> list = new ArrayList<>();
 		try {
-			this.output.writeChars("PLAYLISTS");
+			String outputString = new String("PLAYLISTS");
+			this.output.writeObject(outputString);
 			list = (List<PlayList>) this.input.readObject();
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
