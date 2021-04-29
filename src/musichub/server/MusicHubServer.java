@@ -4,17 +4,17 @@ import java.io.*;
 import java.net.*;
 
 public class MusicHubServer {
-	private ServerInstance serv;
 	private String ip = "localhost";
 	private ServerSocket ss;
 	
-	public MusicHubServer() {
+	public void launch() {
 		try {
 			ss = new ServerSocket(6666);
 			System.out.println("Server waiting for connection...");
 			while (true) {
 				Socket socket = ss.accept();
 				System.out.println("Connected as " + ip);
+				new ServerInstance(socket).start();
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();

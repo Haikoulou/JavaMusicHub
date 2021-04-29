@@ -8,30 +8,36 @@ public class ServerInstance extends Thread {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	
-	public ServerInstance(int port) {
+	public ServerInstance(Socket s) {
+		this.socket = s;
+	}
+	
+	public void run () {
 		try {
-			ServerSocket ss = new ServerSocket(port);
+			this.input = new ObjectInputStream(socket.getInputStream());
+			this.output = new ObjectOutputStream(socket.getOutputStream());
 			
-			while (true) {
-				Socket socketClient = ss.accept();
-		        String message = "";
-
-		        System.out.println("Connexion avec : "+socketClient.getInetAddress());
-
-		        // InputStream in = socketClient.getInputStream();
-		        // OutputStream out = socketClient.getOutputStream();
-
-		        BufferedReader in = new BufferedReader(
-		          new InputStreamReader(socketClient.getInputStream()));
-		        PrintStream out = new PrintStream(socketClient.getOutputStream());
-		        message = in.readLine();
-		        out.println(message);
-
-		        socketClient.close();
-			}
+			String text = (String)input.readObject();  //read the object received through the stream and deserialize it
+			System.out.println("server received a text:" + text);
+			
+			//Student student = new Student(1234, "john.doe");
+			//this.output.writeObject(student);		//serialize and write the Student object to the stream
+			this.output.writeChars("helo");
 				
-		} catch (Exception e) {
-				e.printStackTrace();
+		} catch (IOException ex) {
+            System.out.println("Server exception: " + ex.getMessage());
+            ex.printStackTrace();
+
+		} catch (ClassNotFoundException ex) {
+            System.out.println("Server exception: " + ex.getMessage());
+            ex.printStackTrace();
+        } finally {
+			try {
+				output.close();
+				input.close();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
 		}
 	}
 }

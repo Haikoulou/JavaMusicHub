@@ -13,6 +13,7 @@ public class Main
  		if(server == 1) {
  			try {
  				MusicHubServer theHubServer = new MusicHubServer();
+ 				theHubServer.launch();
  			} catch (Exception e) {
  				System.out.println(e);
  				System.exit(-1);
@@ -23,7 +24,7 @@ public class Main
 	 		try {
 	 			theHub = new MusicHub ();
 	 		} catch (ConnectionFailureException ex){
-				System.out.println ("Erreur lors de la configuration du programme. Arrêt...");
+				System.out.println ("Erreur lors de la configuration du programme. Arrï¿½t...");
 				System.exit(-1);
 			}
 			
