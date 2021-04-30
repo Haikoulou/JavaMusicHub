@@ -20,6 +20,21 @@ public class ServerInstance extends Thread {
 			String text = (String)input.readObject();  //read the object received through the stream and deserialize it
 			System.out.println("server received a text:" + text);
 			
+			switch(text) {
+			case "SONGS":
+				
+				break;
+			case "ALBUMS":
+				
+				break;
+			case "AUDIOBOOKS":
+				
+				break;
+			case "PLAYLISTS":
+				
+				break;
+			}
+			
 			//Student student = new Student(1234, "john.doe");
 			//this.output.writeObject(student);		//serialize and write the Student object to the stream
 			this.output.writeChars("helo");

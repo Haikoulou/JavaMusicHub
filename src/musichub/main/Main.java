@@ -13,7 +13,7 @@ public class Main
  		if(server == 1) {
  			try {
  				MusicHubServer theHubServer = new MusicHubServer();
- 				theHubServer.launch();
+ 				theHubServer.launch(6667);
  			} catch (Exception e) {
  				System.out.println(e);
  				System.exit(-1);
