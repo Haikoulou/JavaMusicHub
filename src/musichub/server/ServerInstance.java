@@ -40,6 +40,10 @@ public class ServerInstance extends Thread {
 			case "SENDSONG":
 				this.getSong();
 				break;
+			case "ping":
+				this.output.writeObject("pong");
+				this.output.flush();
+				break;
 			}
 				
 		} catch (IOException ex) {
@@ -62,9 +66,8 @@ public class ServerInstance extends Thread {
 	private void sendAudioElements() {
 		try {
 			List<AudioElement> elementsToSend = theHubServer.getAudioElements();
-			for(AudioElement ae : elementsToSend) {
-				this.output.writeObject(ae);
-			}
+			this.output.writeObject(elementsToSend);
+			this.output.flush();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -73,9 +76,8 @@ public class ServerInstance extends Thread {
 	private void sendAlbums() {
 		try {
 			List<Album> elementsToSend = theHubServer.getAlbums();
-			for(Album a : elementsToSend) {
-				this.output.writeObject(a);
-			}
+			this.output.writeObject(elementsToSend);
+			this.output.flush();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -84,9 +86,8 @@ public class ServerInstance extends Thread {
 	private void sendPlaylists() {
 		try {
 			List<PlayList> elementsToSend = theHubServer.getPlaylists();
-			for(PlayList p : elementsToSend) {
-				this.output.writeObject(p);
-			}
+			this.output.writeObject(elementsToSend);
+			this.output.flush();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

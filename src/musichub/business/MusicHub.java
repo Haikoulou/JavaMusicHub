@@ -43,20 +43,14 @@ public class MusicHub {
 		this.playlists = new LinkedList<PlayList>();
 		this.elements = new LinkedList<AudioElement>();
 		this.conn = new ServerConnection("localhost", 6667);
-		if(!this.conn.isSetup()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
-		 
-		if (!this.conn.isConnected()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
 		
-		//this.loadSongsServer();
-		//this.loadAudioBooksServer();
+		
 		System.out.println("Requesting data...");
-		//this.loadAudioElementsServer();
+		this.loadAudioElementsServer();
 		this.loadAlbumsServer();
-		//this.loadPlaylistsServer();
+		this.loadPlaylistsServer();
 		
 		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");
-		
-		this.conn.CloseConnection();
 	}
 	
 	public void addElement(AudioElement element) {
@@ -229,72 +223,13 @@ public class MusicHub {
 		
 	}
 	
-	private void loadAlbums () {
-		NodeList albumNodes = xmlHandler.parseXMLFile(ALBUMS_FILE_PATH);
-		if (albumNodes == null) return;
-				
-		for (int i = 0; i < albumNodes.getLength(); i++) {
-			if (albumNodes.item(i).getNodeType() == Node.ELEMENT_NODE)   {
-				Element albumElement = (Element) albumNodes.item(i);
-				if (albumElement.getNodeName().equals("album")) 	{
-					try {
-						this.addAlbum(new Album (albumElement));
-					} catch (Exception ex) {
-						System.out.println ("Something is wrong with the XML album element");
-					}
-				}
-			}  
-		}
-	}
-	
-	private void loadPlaylists () {
-		NodeList playlistNodes = xmlHandler.parseXMLFile(PLAYLISTS_FILE_PATH);
-		if (playlistNodes == null) return;
-		
-		for (int i = 0; i < playlistNodes.getLength(); i++) {
-			if (playlistNodes.item(i).getNodeType() == Node.ELEMENT_NODE)   {
-				Element playlistElement = (Element) playlistNodes.item(i);
-				if (playlistElement.getNodeName().equals("playlist")) 	{
-					try {
-						this.addPlaylist(new PlayList (playlistElement));
-					} catch (Exception ex) {
-						System.out.println ("Something is wrong with the XML playlist element");
-					}
-				}
-			}  
-		}
-	}
-	
-	private void loadElements () {
-		NodeList audioelementsNodes = xmlHandler.parseXMLFile(ELEMENTS_FILE_PATH);
-		if (audioelementsNodes == null) return;
-		
-		for (int i = 0; i < audioelementsNodes.getLength(); i++) {
-			if (audioelementsNodes.item(i).getNodeType() == Node.ELEMENT_NODE)   {
-				Element audioElement = (Element) audioelementsNodes.item(i);
-				if (audioElement.getNodeName().equals("song")) 	{
-					try {
-						AudioElement newSong = new Song (audioElement);
-						this.addElement(newSong);
-					} catch (Exception ex) 	{
-						System.out.println ("Something is wrong with the XML song element");
-					}
-				}
-				if (audioElement.getNodeName().equals("audiobook")) 	{
-					try {
-						AudioElement newAudioBook = new AudioBook (audioElement);
-						this.addElement(newAudioBook);
-					} catch (Exception ex) 	{
-						System.out.println ("Something is wrong with the XML audiobook element");
-					}
-				}
-			}  
-		}
-	}
-	
 	private void loadAudioElementsServer() {
 		List<AudioElement> list = new ArrayList<>();
-		list = conn.requestAudioElements(); //Request list of songs from the server
+		try {
+			list = conn.requestAudioElements();
+		} catch (ConnectionLostException cle) {
+			System.out.println("Impossible de charger les éléments audios.");
+		}
 		if (list.isEmpty()) return;
 		
 		for (AudioElement elementList : list) { //Read the new list to store it in memory
@@ -307,7 +242,7 @@ public class MusicHub {
 		try {
 			list = conn.requestPlaylists();
 		} catch (ConnectionLostException cle) {
-			System.out.println("Impossible de récupérer les playlists sur le serveur distant.");
+			System.out.println("Impossible de charger les playlists.");
 		}
 		 //Request list of songs from the server
 		if (list.isEmpty()) return;
@@ -319,7 +254,11 @@ public class MusicHub {
 	
 	private void loadAlbumsServer() {
 		List<Album> list = new ArrayList<>();
-		list = conn.requestAlbums(); //Request list of songs from the server
+		try {
+			list = conn.requestAlbums();
+		} catch (ConnectionLostException cle) {
+			System.out.println("Impossible de charger les albums.");
+		}
 		if (list.isEmpty()) return;
 		
 		for (Album albumList : list) { //Read the new list to store it in memory
