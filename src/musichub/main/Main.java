@@ -1,6 +1,9 @@
 package musichub.main;
 import musichub.business.*;
 import java.util.*;
+//test for picture
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import java.beans.XMLEncoder;
 import java.io.FileOutputStream;
