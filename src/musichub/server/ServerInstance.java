@@ -2,6 +2,7 @@ package musichub.server;
 
 import java.io.*;
 import java.net.*;
+import musichub.business.*;
 
 public class ServerInstance extends Thread {
 	private Socket socket;
@@ -20,24 +21,24 @@ public class ServerInstance extends Thread {
 			this.input = new ObjectInputStream(socket.getInputStream());
 			this.output = new ObjectOutputStream(socket.getOutputStream());
 			
-			String text = (String)input.readObject();  //read the object received through the stream and deserialize it
-			System.out.println("server received a text:" + text);
+			String inputReader = (String)input.readObject();  //read the object received through the stream and deserialize it
+			System.out.println("server received a text:" + inputReader);
 			
-			switch(text) {
-			case "AUDIOELEMENTS":
+			
+			switch(inputReader) {
+			case "GETAUDIOELEMENTS":
 				this.sendAudioElements();
 				break;
-			case "ALBUMS":
+			case "GETALBUMS":
 				this.sendAlbums();
 				break;
-			case "PLAYLISTS":
+			case "GETPLAYLISTS":
 				this.sendPlaylists();
 				break;
+			case "SENDSONG":
+				this.getSong();
+				break;
 			}
-			
-			//Student student = new Student(1234, "john.doe");
-			//this.output.writeObject(student);		//serialize and write the Student object to the stream
-			//this.output.writeChars("helo");
 				
 		} catch (IOException ex) {
             System.out.println("Server exception: " + ex.getMessage());
@@ -78,5 +79,17 @@ public class ServerInstance extends Thread {
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
+	}
+	
+	private void getSong() {
+		try {
+			this.output.writeObject("OK");
+			Song receivedSong = (Song)input.readObject();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} catch (ClassNotFoundException ex) {
+            System.out.println("Server exception: " + ex.getMessage());
+            ex.printStackTrace();
+        }
 	}
 }

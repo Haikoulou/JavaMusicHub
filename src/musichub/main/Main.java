@@ -8,7 +8,9 @@ import java.util.*;
 public class Main
 {
  	public static void main (String[] args) {
+ 		//Reading the arguments
  		int server = 1;
+ 		
  		
  		if(server == 1) {
  			try {
@@ -24,7 +26,7 @@ public class Main
 	 		try {
 	 			theHub = new MusicHub ();
 	 		} catch (ConnectionFailureException ex){
-				System.out.println ("Erreur lors de la configuration du programme. Arr�t...");
+				System.out.println ("Erreur lors de la configuration du programme. Arret...");
 				System.exit(-1);
 			}
 			
