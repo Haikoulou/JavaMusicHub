@@ -104,6 +104,7 @@ public class Main
 	                    String content = scan.nextLine();
 	                    Song s = new Song (title, artist, length, content, genre);
 	                    theHub.addElement(s);
+	                    theHub.updateElementsServer();
 	                    System.out.println("New element list: ");
 	                    Iterator<AudioElement> it = theHub.elements();
 	                    while (it.hasNext()) System.out.println(it.next().getTitle());
@@ -124,6 +125,7 @@ public class Main
 	                    String aDate = scan.nextLine();
 	                    Album a = new Album(aTitle, aArtist, aLength, aDate);
 	                    theHub.addAlbum(a);
+	                    theHub.updateAlbumsServer();
 	                    System.out.println("New list of albums: ");
 	                    Iterator<Album> ita = theHub.albums();
 	                    while (ita.hasNext()) System.out.println(ita.next().getTitle());
@@ -157,6 +159,7 @@ public class Main
 							System.out.println (ex.getMessage());
 						}
 						System.out.println("Song added to the album!");
+						theHub.updateAlbumsServer();
 						printAvailableCommands();
 	                    choice = scan.nextLine();
 						break;
@@ -177,6 +180,7 @@ public class Main
 	                    String bLanguage = scan.nextLine();
 	                    AudioBook b = new AudioBook (bTitle, bArtist, bLength, bContent, bLanguage, bCategory);
 	                    theHub.addElement(b);
+	                    theHub.updateElementsServer();
 	                    System.out.println("Audiobook created! New element list: ");
 	                    Iterator<AudioElement> itl = theHub.elements();
 	                    while (itl.hasNext()) System.out.println(itl.next().getTitle());
@@ -218,6 +222,7 @@ public class Main
 							choice = scan.nextLine();
 						}
 						System.out.println("Playlist created!");
+						theHub.updatePlaylistsServer();
 						printAvailableCommands();
 						choice = scan.nextLine();
 						break;
@@ -236,14 +241,12 @@ public class Main
 							System.out.println (ex.getMessage());
 						}
 						System.out.println("Playlist deleted!");
+						theHub.updatePlaylistsServer();
 						printAvailableCommands();
 						choice = scan.nextLine();
 					break;
 					case 's':
 						//save elements, albums, playlists
-						theHub.saveElements();
-						theHub.saveAlbums();
-						theHub.savePlayLists();
 						System.out.println("Elements, albums and playlists saved!");
 						printAvailableCommands();
 						choice = scan.nextLine();

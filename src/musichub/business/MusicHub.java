@@ -2,7 +2,6 @@ package musichub.business;
 
 import java.util.*;
 import musichub.util.*;
-import org.w3c.dom.*;
 
 class SortByDate implements Comparator<Album>
 {
@@ -31,13 +30,6 @@ public class MusicHub {
 	private List<AudioElement> elements;
 	private ServerConnection conn;
 	
-	public static final String DIR = System.getProperty("user.dir");
-	public static final String ALBUMS_FILE_PATH = DIR + "\\files\\albums.xml";
-	public static final String PLAYLISTS_FILE_PATH = DIR + "\\files\\playlists.xml";
-	public static final String ELEMENTS_FILE_PATH = DIR + "\\files\\elements.xml";
-	
-	private XMLHandler xmlHandler = new XMLHandler();
-	
 	public MusicHub () throws ConnectionFailureException {
 		this.albums = new LinkedList<Album>();
 		this.playlists = new LinkedList<PlayList>();
@@ -50,7 +42,31 @@ public class MusicHub {
 		this.loadAlbumsServer();
 		this.loadPlaylistsServer();
 		
-		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");
+		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");		
+	}
+	
+	public void updateElementsServer() {
+		try {
+			conn.sendElements(elements);
+		} catch (ConnectionLostException cle) {
+			cle.printStackTrace();
+		}
+	}
+	
+	public void updateAlbumsServer() {
+		try {
+			conn.sendAlbums(albums);
+		} catch (ConnectionLostException cle) {
+			cle.printStackTrace();
+		}
+	}
+	
+	public void updatePlaylistsServer() {
+		try {
+			conn.sendPlaylists(playlists);
+		} catch (ConnectionLostException cle) {
+			cle.printStackTrace();
+		}
 	}
 	
 	public void addElement(AudioElement element) {
@@ -264,63 +280,5 @@ public class MusicHub {
 		for (Album albumList : list) { //Read the new list to store it in memory
 			this.addAlbum(albumList);
 		}
-	}
-
-
-	public void saveAlbums () {
-		Document document = xmlHandler.createXMLDocument();
-		if (document == null) return;
-		
-		// root element
-		Element root = document.createElement("albums");
-		document.appendChild(root);
-
-		//save all albums
-		for (Iterator<Album> albumsIter = this.albums(); albumsIter.hasNext();) {
-			Album currentAlbum = albumsIter.next();
-			currentAlbum.createXMLElement(document, root);
-		}
-		xmlHandler.createXMLFile(document, ALBUMS_FILE_PATH);
-	}
-	
-	public void savePlayLists () {
-		Document document = xmlHandler.createXMLDocument();
-		if (document == null) return;
-		
-		// root element
-		Element root = document.createElement("playlists");
-		document.appendChild(root);
-
-		//save all playlists
-		for (Iterator<PlayList> playlistsIter = this.playlists(); playlistsIter.hasNext();) {
-			PlayList currentPlayList = playlistsIter.next();
-			currentPlayList.createXMLElement(document, root);
-		}
-		xmlHandler.createXMLFile(document, PLAYLISTS_FILE_PATH);
-	}
-	
-	public void saveElements() {
-		Document document = xmlHandler.createXMLDocument();
-		if (document == null) return;
-
-		// root element
-		Element root = document.createElement("elements");
-		document.appendChild(root);
-
-		//save all AudioElements
-		Iterator<AudioElement> elementsIter = elements.listIterator(); 
-		while (elementsIter.hasNext()) {
-			
-			AudioElement currentElement = elementsIter.next();
-			if (currentElement instanceof Song)
-			{
-				((Song)currentElement).createXMLElement(document, root);
-			}
-			if (currentElement instanceof AudioBook)
-			{ 
-				((AudioBook)currentElement).createXMLElement(document, root);
-			}
-		}
-		xmlHandler.createXMLFile(document, ELEMENTS_FILE_PATH);
- 	}	
+	}	
 }

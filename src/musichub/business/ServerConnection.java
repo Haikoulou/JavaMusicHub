@@ -61,6 +61,57 @@ public class ServerConnection {
 		return list;
 	}
 	
+	public void sendElements(List<AudioElement> elements) throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		try {
+			this.output.writeObject(elements);
+			this.output.flush();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		this.CloseConnection();
+	}
+	
+	public void sendAlbums(List<Album> albums) throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		try {
+			this.output.writeObject(albums);
+			this.output.flush();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		this.CloseConnection();
+	}
+	
+	public void sendPlaylists(List<PlayList> playlists) throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		try {
+			this.output.writeObject(playlists);
+			this.output.flush();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		this.CloseConnection();
+	}
+	
 	public List<Album> requestAlbums() throws ConnectionLostException{
 		this.connect();
 		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");

@@ -4,6 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -51,7 +52,7 @@ public class MusicHubServer {
 			System.out.println("Server waiting for connection...");
 			while (true) {
 				Socket socket = ss.accept();
-				System.out.println("Connected as " + ss.getInetAddress());
+				System.out.println("Connected to " + socket.getRemoteSocketAddress().toString());
 				new ServerInstance(socket, this).start();
 			}
 		} catch (IOException ioe) {
@@ -80,6 +81,18 @@ public class MusicHubServer {
 	
 	//Elements management
 	
+	public Iterator<Album> albums() { 
+		return albums.listIterator();
+	}
+	
+	public Iterator<PlayList> playlists() { 
+		return playlists.listIterator();
+	}
+	
+	public Iterator<AudioElement> elements() { 
+		return elements.listIterator();
+	}
+	
 	public List<AudioElement> getAudioElements(){
 		return this.elements;
 	}
@@ -102,6 +115,18 @@ public class MusicHubServer {
 	
 	public void addPlaylist(PlayList playlist) {
 		playlists.add(playlist);
+	}
+	
+	public void updateElements(List<AudioElement> list) {
+		elements = list;
+	}
+	
+	public void updateAlbums(List<Album> list) {
+		albums = list;
+	}
+	
+	public void updatePlaylists(List<PlayList> list) {
+		playlists = list;
 	}
 	
 	public void deletePlayList(String playListTitle) throws NoPlayListFoundException {
@@ -182,4 +207,61 @@ public class MusicHubServer {
 			}  
 		}
 	}
+	
+	public void saveAlbums () {
+		Document document = xmlHandler.createXMLDocument();
+		if (document == null) return;
+		
+		// root element
+		Element root = document.createElement("albums");
+		document.appendChild(root);
+
+		//save all albums
+		for (Iterator<Album> albumsIter = this.albums(); albumsIter.hasNext();) {
+			Album currentAlbum = albumsIter.next();
+			currentAlbum.createXMLElement(document, root);
+		}
+		xmlHandler.createXMLFile(document, ALBUMS_FILE_PATH);
+	}
+	
+	public void savePlayLists () {
+		Document document = xmlHandler.createXMLDocument();
+		if (document == null) return;
+		
+		// root element
+		Element root = document.createElement("playlists");
+		document.appendChild(root);
+
+		//save all playlists
+		for (Iterator<PlayList> playlistsIter = this.playlists(); playlistsIter.hasNext();) {
+			PlayList currentPlayList = playlistsIter.next();
+			currentPlayList.createXMLElement(document, root);
+		}
+		xmlHandler.createXMLFile(document, PLAYLISTS_FILE_PATH);
+	}
+	
+	public void saveElements() {
+		Document document = xmlHandler.createXMLDocument();
+		if (document == null) return;
+
+		// root element
+		Element root = document.createElement("elements");
+		document.appendChild(root);
+
+		//save all AudioElements
+		Iterator<AudioElement> elementsIter = elements.listIterator(); 
+		while (elementsIter.hasNext()) {
+			
+			AudioElement currentElement = elementsIter.next();
+			if (currentElement instanceof Song)
+			{
+				((Song)currentElement).createXMLElement(document, root);
+			}
+			if (currentElement instanceof AudioBook)
+			{ 
+				((AudioBook)currentElement).createXMLElement(document, root);
+			}
+		}
+		xmlHandler.createXMLFile(document, ELEMENTS_FILE_PATH);
+ 	}
 }
