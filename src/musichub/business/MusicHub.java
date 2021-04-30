@@ -53,6 +53,8 @@ public class MusicHub {
 		this.loadAlbumsServer();
 		this.loadPlaylistsServer();
 		
+		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");
+		
 		this.conn.CloseConnection();
 	}
 	
