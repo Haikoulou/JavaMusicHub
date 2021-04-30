@@ -47,8 +47,9 @@ public class MusicHub {
 		 
 		if (!this.conn.isConnected()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
 		
-		this.loadSongsServer();
-		this.loadAudioBooksServer();
+		//this.loadSongsServer();
+		//this.loadAudioBooksServer();
+		this.loadAudioElementsServer();
 		this.loadAlbumsServer();
 		this.loadPlaylistsServer();
 		
@@ -305,6 +306,16 @@ public class MusicHub {
 		
 		for (AudioBook bookList : list) { //Read the new list to store it in memory
 			this.addElement(bookList);
+		}
+	}
+	
+	private void loadAudioElementsServer() {
+		List<AudioElement> list = new ArrayList<>();
+		list = conn.requestAudioElements(); //Request list of songs from the server
+		if (list.isEmpty()) return;
+		
+		for (AudioElement elementList : list) { //Read the new list to store it in memory
+			this.addElement(elementList);
 		}
 	}
 	

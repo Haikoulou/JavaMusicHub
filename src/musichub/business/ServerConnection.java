@@ -66,6 +66,27 @@ public class ServerConnection { //Non-functionnal
 		return list;
 	}
 	
+	public List<AudioElement> requestAudioElements(){
+		List<AudioElement> list = new ArrayList<>();
+		try {
+			this.output.writeChars("AUDIOELEMENTS");
+			list = (List<AudioElement>) this.input.readObject();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		catch  (ClassNotFoundException cfe) {
+			cfe.printStackTrace();
+		}
+		
+		this.input = null;
+		this.output = null;
+		
+		return list;
+	}
+	
 	public List<Album> requestAlbums(){
 		List<Album> list = new ArrayList<>();
 		try {

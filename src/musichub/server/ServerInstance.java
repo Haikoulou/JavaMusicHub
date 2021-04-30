@@ -8,8 +8,11 @@ public class ServerInstance extends Thread {
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
 	
-	public ServerInstance(Socket s) {
+	private MusicHubServer theHubServer;
+	
+	public ServerInstance(Socket s, MusicHubServer theHubServer) {
 		this.socket = s;
+		this.theHubServer = theHubServer;
 	}
 	
 	public void run () {
@@ -21,23 +24,20 @@ public class ServerInstance extends Thread {
 			System.out.println("server received a text:" + text);
 			
 			switch(text) {
-			case "SONGS":
-				
+			case "AUDIOELEMENTS":
+				this.sendAudioElements();
 				break;
 			case "ALBUMS":
-				
-				break;
-			case "AUDIOBOOKS":
-				
+				this.sendAlbums();
 				break;
 			case "PLAYLISTS":
-				
+				this.sendPlaylists();
 				break;
 			}
 			
 			//Student student = new Student(1234, "john.doe");
 			//this.output.writeObject(student);		//serialize and write the Student object to the stream
-			this.output.writeChars("helo");
+			//this.output.writeChars("helo");
 				
 		} catch (IOException ex) {
             System.out.println("Server exception: " + ex.getMessage());
@@ -53,6 +53,30 @@ public class ServerInstance extends Thread {
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			}
+		}
+	}
+	
+	private void sendAudioElements() {
+		try {
+			this.output.writeObject(theHubServer.getAudioElements());
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	private void sendAlbums() {
+		try {
+			this.output.writeObject(theHubServer.getAlbums());
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	private void sendPlaylists() {
+		try {
+			this.output.writeObject(theHubServer.getPlaylists());
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
 		}
 	}
 }

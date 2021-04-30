@@ -52,7 +52,7 @@ public class MusicHubServer {
 			while (true) {
 				Socket socket = ss.accept();
 				System.out.println("Connected as " + ss.getInetAddress());
-				new ServerInstance(socket).start();
+				new ServerInstance(socket, this).start();
 			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -79,6 +79,18 @@ public class MusicHubServer {
 	}
 	
 	//Elements management
+	
+	public List<AudioElement> getAudioElements(){
+		return this.elements;
+	}
+	
+	public List<Album> getAlbums(){
+		return this.albums;
+	}
+	
+	public List<PlayList> getPlaylists(){
+		return this.playlists;
+	}
 	
 	public void addElement(AudioElement element) {
 		elements.add(element);
