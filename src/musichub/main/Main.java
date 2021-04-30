@@ -11,6 +11,9 @@ public class Main
  		//Reading the arguments
  		int server = 1;
  		
+ 		if(args.length >= 1)
+ 			server = 0;
+ 		
  		
  		if(server == 1) {
  			try {

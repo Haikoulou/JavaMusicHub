@@ -2,6 +2,8 @@ package musichub.server;
 
 import java.io.*;
 import java.net.*;
+import java.util.List;
+
 import musichub.business.*;
 
 public class ServerInstance extends Thread {
@@ -59,7 +61,10 @@ public class ServerInstance extends Thread {
 	
 	private void sendAudioElements() {
 		try {
-			this.output.writeObject(theHubServer.getAudioElements());
+			List<AudioElement> elementsToSend = theHubServer.getAudioElements();
+			for(AudioElement ae : elementsToSend) {
+				this.output.writeObject(ae);
+			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -67,7 +72,10 @@ public class ServerInstance extends Thread {
 	
 	private void sendAlbums() {
 		try {
-			this.output.writeObject(theHubServer.getAlbums());
+			List<Album> elementsToSend = theHubServer.getAlbums();
+			for(Album a : elementsToSend) {
+				this.output.writeObject(a);
+			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
@@ -75,7 +83,10 @@ public class ServerInstance extends Thread {
 	
 	private void sendPlaylists() {
 		try {
-			this.output.writeObject(theHubServer.getPlaylists());
+			List<PlayList> elementsToSend = theHubServer.getPlaylists();
+			for(PlayList p : elementsToSend) {
+				this.output.writeObject(p);
+			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}

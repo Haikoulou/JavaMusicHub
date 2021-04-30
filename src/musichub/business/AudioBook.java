@@ -1,8 +1,9 @@
 package musichub.business;
 
+import java.io.Serializable;
 import org.w3c.dom.*;
 
-public class AudioBook extends AudioElement {
+public class AudioBook extends AudioElement implements Serializable{
 	private Language language;
 	private Category category;
 	

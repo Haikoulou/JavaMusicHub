@@ -1,9 +1,10 @@
 package musichub.business;
 
+import java.io.Serializable;
 import org.w3c.dom.*;
 
 
-public class Song extends AudioElement {
+public class Song extends AudioElement implements Serializable {
 	private Genre genre;
 	
 	public Song (String title, String artist, int length, String uid, String content, String genre) {

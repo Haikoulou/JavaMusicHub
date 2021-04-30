@@ -1,9 +1,10 @@
 package musichub.business;
 
 import java.util.*;
+import java.io.Serializable;
 import org.w3c.dom.*;
 
-public class PlayList {
+public class PlayList implements Serializable {
 	private String title;
 	private UUID uuid;
 	private ArrayList<UUID> elementUUIDs;

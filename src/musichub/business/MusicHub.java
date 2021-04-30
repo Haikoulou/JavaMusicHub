@@ -42,16 +42,17 @@ public class MusicHub {
 		this.albums = new LinkedList<Album>();
 		this.playlists = new LinkedList<PlayList>();
 		this.elements = new LinkedList<AudioElement>();
-		this.conn = new ServerConnection("localhost", 4444);
+		this.conn = new ServerConnection("localhost", 6667);
 		if(!this.conn.isSetup()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
 		 
 		if (!this.conn.isConnected()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
 		
 		//this.loadSongsServer();
 		//this.loadAudioBooksServer();
-		this.loadAudioElementsServer();
+		System.out.println("Requesting data...");
+		//this.loadAudioElementsServer();
 		this.loadAlbumsServer();
-		this.loadPlaylistsServer();
+		//this.loadPlaylistsServer();
 		
 		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");
 		
@@ -288,26 +289,6 @@ public class MusicHub {
 					}
 				}
 			}  
-		}
-	}
-	
-	private void loadSongsServer() {
-		List<Song> list = new ArrayList<>();
-		list = conn.requestSongs(); //Request list of songs from the server
-		if (list.isEmpty()) return;
-		
-		for (Song songList : list) { //Read the new list to store it in memory
-			this.addElement(songList);
-		}
-	}
-	
-	private void loadAudioBooksServer() {
-		List<AudioBook> list = new ArrayList<>();
-		list = conn.requestAudioBooks(); //Request list of songs from the server
-		if (list.isEmpty()) return;
-		
-		for (AudioBook bookList : list) { //Read the new list to store it in memory
-			this.addElement(bookList);
 		}
 	}
 	

@@ -24,53 +24,18 @@ public class ServerConnection { //Non-functionnal
 		}
 	}
 	
-	public List<Song> requestSongs(){
-		List<Song> list = new ArrayList<>();
-		try {
-			this.output.writeChars("SONGS");
-			list = (List<Song>) this.input.readObject();
-		} catch  (UnknownHostException uhe) {
-			uhe.printStackTrace();
-		}
-		catch  (IOException ioe) {
-			ioe.printStackTrace();
-		}
-		catch  (ClassNotFoundException cfe) {
-			cfe.printStackTrace();
-		}
-		
-		this.input = null;
-		this.output = null;
-		
-		return list;
-	}
-	
-	public List<AudioBook> requestAudioBooks(){
-		List<AudioBook> list = new ArrayList<>();
-		try {
-			this.output.writeChars("GETAUDIOBOOKS");
-			list = (List<AudioBook>) this.input.readObject();
-		} catch  (UnknownHostException uhe) {
-			uhe.printStackTrace();
-		}
-		catch  (IOException ioe) {
-			ioe.printStackTrace();
-		}
-		catch  (ClassNotFoundException cfe) {
-			cfe.printStackTrace();
-		}
-		
-		this.input = null;
-		this.output = null;
-		
-		return list;
-	}
-	
 	public List<AudioElement> requestAudioElements(){
 		List<AudioElement> list = new ArrayList<>();
 		try {
-			this.output.writeChars("GETAUDIOELEMENTS");
-			list = (List<AudioElement>) this.input.readObject();
+			this.output.writeObject("GETAUDIOELEMENTS");
+			while(this.input != null) { //tant qu'on reçoit qqch, on continue de lire l'input
+				Object inputReceived = this.input.readObject();
+				if(inputReceived instanceof AudioElement) {
+					AudioElement newAudioElement = (AudioElement)inputReceived;
+					list.add(newAudioElement);
+				}
+				else break;
+			}
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
@@ -80,9 +45,6 @@ public class ServerConnection { //Non-functionnal
 		catch  (ClassNotFoundException cfe) {
 			cfe.printStackTrace();
 		}
-		
-		this.input = null;
-		this.output = null;
 		
 		return list;
 	}
@@ -90,8 +52,15 @@ public class ServerConnection { //Non-functionnal
 	public List<Album> requestAlbums(){
 		List<Album> list = new ArrayList<>();
 		try {
-			this.output.writeChars("GETALBUMS");
-			list = (List<Album>) this.input.readObject();
+			this.output.writeObject("GETALBUMS");
+			while(this.input != null) { //tant qu'on reçoit qqch, on continue de lire l'input
+				Object inputReceived = this.input.readObject();
+				if(inputReceived instanceof Album) {
+					Album newAlbum = (Album)inputReceived;
+					list.add(newAlbum);
+				}
+				else break;
+			}
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
@@ -101,9 +70,6 @@ public class ServerConnection { //Non-functionnal
 		catch  (ClassNotFoundException cfe) {
 			cfe.printStackTrace();
 		}
-		
-		this.input = null;
-		this.output = null;
 		
 		return list;
 	}
@@ -111,8 +77,15 @@ public class ServerConnection { //Non-functionnal
 	public List<PlayList> requestPlaylists(){
 		List<PlayList> list = new ArrayList<>();
 		try {
-			this.output.writeChars("GETPLAYLISTS");
-			list = (List<PlayList>) this.input.readObject();
+			this.output.writeObject("GETPLAYLISTS");
+			while(this.input != null) { //tant qu'on reçoit qqch, on continue de lire l'input
+				Object inputReceived = this.input.readObject();
+				if(inputReceived instanceof PlayList) {
+					PlayList newPlaylist = (PlayList)inputReceived;
+					list.add(newPlaylist);
+				}
+				else break;
+			}
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
@@ -122,9 +95,6 @@ public class ServerConnection { //Non-functionnal
 		catch  (ClassNotFoundException cfe) {
 			cfe.printStackTrace();
 		}
-		
-		this.input = null;
-		this.output = null;
 		
 		return list;
 	}
