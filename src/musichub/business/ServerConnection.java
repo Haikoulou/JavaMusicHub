@@ -4,7 +4,7 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
-public class ServerConnection { //Non-functionnal
+public class ServerConnection {
 	private ObjectOutputStream output = null;
 	private ObjectInputStream input = null;
 	private Socket socket = null;
