@@ -74,7 +74,9 @@ public class ServerConnection {
 		return list;
 	}
 	
-	public List<PlayList> requestPlaylists(){
+	public List<PlayList> requestPlaylists() throws ConnectionLostException{
+		if(!this.isConnected()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
 		List<PlayList> list = new ArrayList<>();
 		try {
 			this.output.writeObject("GETPLAYLISTS");

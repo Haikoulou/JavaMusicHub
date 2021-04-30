@@ -304,7 +304,12 @@ public class MusicHub {
 	
 	private void loadPlaylistsServer() {
 		List<PlayList> list = new ArrayList<>();
-		list = conn.requestPlaylists(); //Request list of songs from the server
+		try {
+			list = conn.requestPlaylists();
+		} catch (ConnectionLostException cle) {
+			System.out.println("Impossible de récupérer les playlists sur le serveur distant.");
+		}
+		 //Request list of songs from the server
 		if (list.isEmpty()) return;
 		
 		for (PlayList playlistList : list) { //Read the new list to store it in memory
