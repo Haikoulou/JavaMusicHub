@@ -20,3 +20,5 @@ avr. 30, 2021 9:47:41 PM musichub.business.LogException <init>
 INFO: The server cannot be reached. Please check your network configuration and try again.
 avr. 30, 2021 9:48:16 PM musichub.business.LogException <init>
 INFO: The server cannot be reached. Please check your network configuration and try again.
+mai 01, 2021 12:31:19 PM musichub.business.LogException <init>
+WARNING: No album with this title in the MusicHub!

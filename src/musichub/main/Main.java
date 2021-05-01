@@ -40,6 +40,7 @@ public class Main
 			
 			
 			Scanner scan = new Scanner(System.in);
+			System.out.print(">> ");
 			String choice = scan.nextLine();
 			
 			String albumTitle = null;
@@ -50,13 +51,13 @@ public class Main
 				switch (choice.charAt(0)) 	{
 					case 'h':
 						printAvailableCommands();
-						choice = scan.nextLine();
+						//choice = scan.nextLine();
 					break;
 					case 't':
 						//album titles, ordered by date
 						System.out.println(theHub.getAlbumsTitlesSortedByDate());
-						printAvailableCommands();
-						choice = scan.nextLine();
+						//printAvailableCommands();
+						//choice = scan.nextLine();
 					break;
 					case 'g':
 						//songs of an album, sorted by genre
@@ -69,8 +70,8 @@ public class Main
 						} catch (NoAlbumFoundException ex) {
 							System.out.println("No album found with the requested title " + ex.getMessage());
 						}
-						printAvailableCommands();
-						choice = scan.nextLine();
+						//printAvailableCommands();
+						//choice = scan.nextLine();
 					break;
 					case 'd':
 						//songs of an album
@@ -83,14 +84,14 @@ public class Main
 						} catch (NoAlbumFoundException ex) {
 							System.out.println("No album found with the requested title " + ex.getMessage());
 						}
-						printAvailableCommands();
-						choice = scan.nextLine();
+						//printAvailableCommands();
+						//choice = scan.nextLine();
 					break;
 					case 'u':
 						//audiobooks ordered by author
 						System.out.println(theHub.getAudiobooksTitlesSortedByAuthor());
-						printAvailableCommands();
-						choice = scan.nextLine();
+						//printAvailableCommands();
+						//choice = scan.nextLine();
 					break;
 					case 'c':
 						// add a new song
@@ -112,8 +113,8 @@ public class Main
 	                    Iterator<AudioElement> it = theHub.elements();
 	                    while (it.hasNext()) System.out.println(it.next().getTitle());
 	                    System.out.println("Song created!");
-	                    printAvailableCommands();
-	                    choice = scan.nextLine();
+	                    //printAvailableCommands();
+	                    //choice = scan.nextLine();
 	                break;
 					case 'a':
 						// add a new album
@@ -133,8 +134,8 @@ public class Main
 	                    Iterator<Album> ita = theHub.albums();
 	                    while (ita.hasNext()) System.out.println(ita.next().getTitle());
 	                    System.out.println("Album created!");
-	                    printAvailableCommands();
-	                    choice = scan.nextLine();
+	                    //printAvailableCommands();
+	                    //choice = scan.nextLine();
 					break;
 					case '+':
 						//add a song to an album:
@@ -163,8 +164,8 @@ public class Main
 						}
 						System.out.println("Song added to the album!");
 						theHub.updateAlbumsServer();
-						printAvailableCommands();
-	                    choice = scan.nextLine();
+						//printAvailableCommands();
+	                    //choice = scan.nextLine();
 						break;
 					case 'l':
 						// add a new audiobook
@@ -187,8 +188,8 @@ public class Main
 	                    System.out.println("Audiobook created! New element list: ");
 	                    Iterator<AudioElement> itl = theHub.elements();
 	                    while (itl.hasNext()) System.out.println(itl.next().getTitle());
-	                    printAvailableCommands();
-	                    choice = scan.nextLine();
+	                    //printAvailableCommands();
+	                    //choice = scan.nextLine();
 					break;
 					case 'p':
 						//create a new playlist from existing elements
@@ -226,8 +227,8 @@ public class Main
 						}
 						System.out.println("Playlist created!");
 						theHub.updatePlaylistsServer();
-						printAvailableCommands();
-						choice = scan.nextLine();
+						//printAvailableCommands();
+						//choice = scan.nextLine();
 						break;
 					case '-':
 						//delete a playlist
@@ -245,19 +246,21 @@ public class Main
 						}
 						System.out.println("Playlist deleted!");
 						theHub.updatePlaylistsServer();
-						printAvailableCommands();
-						choice = scan.nextLine();
+						//printAvailableCommands();
+						//choice = scan.nextLine();
 					break;
 					case 's':
 						//save elements, albums, playlists
 						System.out.println("Elements, albums and playlists saved!");
-						printAvailableCommands();
-						choice = scan.nextLine();
+						//printAvailableCommands();
+						
 					break;
 					default:
 					
 					break;
 				}
+				System.out.print(">> ");
+				choice = scan.nextLine();
 			}
 			scan.close();
  		}

@@ -109,6 +109,10 @@ public class Album implements Serializable {
 		return date;
 	}
 	
+	public String toString() {
+		return "Title = " + this.title + ", Artist = " + this.artist + ", Date = " + this.date + "";
+	}
+	
 	public void createXMLElement(Document document, Element parentElement)
 	{
 		Element albumElement = document.createElement("album");

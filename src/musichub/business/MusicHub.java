@@ -113,7 +113,7 @@ public class MusicHub {
 		StringBuffer titleList = new StringBuffer();
 		Collections.sort(albums, new SortByDate());
 		for (Album al : albums)
-			titleList.append(al.getTitle()+ "\n");
+			titleList.append(" - " + al.toString()+ "\n");
 		return titleList.toString();
 	}
 	
@@ -125,13 +125,15 @@ public class MusicHub {
 					audioBookList.add(ae);
 		Collections.sort(audioBookList, new SortByAuthor());
 		for (AudioElement ab : audioBookList)
-			titleList.append(ab.getArtist()+ "\n");
+			titleList.append(" - " + ab.toString());
 		return titleList.toString();
 	}
 
-	public List<AudioElement> getAlbumSongs (String albumTitle) throws NoAlbumFoundException {
+	public String getAlbumSongs (String albumTitle) throws NoAlbumFoundException {
 		Album theAlbum = null;
 		ArrayList<AudioElement> songsInAlbum = new ArrayList<AudioElement>();
+		String finalString = new String();
+		int count = 1;
 		for (Album al : albums) {
 			if (al.getTitle().toLowerCase().equals(albumTitle.toLowerCase())) {
 				theAlbum = al;
@@ -144,10 +146,14 @@ public class MusicHub {
 		for (UUID id : songIDs)
 			for (AudioElement el : elements) {
 				if (el instanceof Song) {
-					if (el.getUUID().equals(id)) songsInAlbum.add(el);
+					//if (el.getUUID().equals(id)) songsInAlbum.add(el);
+					if (el.getUUID().equals(id)) {
+						finalString = finalString + " " + count + " - " + el.toString();
+						count++;
+					}
 				}
 			}
-		return songsInAlbum;		
+		return finalString;		
 		
 	}
 	
