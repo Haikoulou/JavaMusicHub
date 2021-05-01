@@ -10,8 +10,9 @@ public class Main
  	public static void main (String[] args) {
  		//Reading the arguments
  		int server = 1;
+ 		MusicHandler music = new MusicHandler();
  		
- 		MusicHandler music = new MusicHandler("files/Sister-Sara_s-Theme.wav");
+ 		
 		
 
  		if(args.length >= 1)
@@ -50,7 +51,7 @@ public class Main
 			while (choice.charAt(0)!= 'q') 	{
 				switch (choice.charAt(0)) 	{
 					case 'h':
-						printAvailableCommands();
+						printAvailableCommands(music.isRunning());
 						//choice = scan.nextLine();
 					break;
 					case 't':
@@ -249,6 +250,28 @@ public class Main
 						//printAvailableCommands();
 						//choice = scan.nextLine();
 					break;
+					case 'w':
+						music.close();
+						System.out.print("Enter the name of the file : ");
+						String fileName = scan.nextLine();
+						music.loadFile(fileName);
+						music.play();
+					break;
+					case 'x':
+						if(music.isRunning())
+							music.pause();
+						else
+							music.play();
+					break;
+					case 'v':
+						music.reset();
+					break;
+					case 'b':
+						music.rewind();
+					break;
+					case 'n':
+						music.fastForward();
+					break;
 					case 's':
 						//save elements, albums, playlists
 						System.out.println("Elements, albums and playlists saved!");
@@ -256,7 +279,7 @@ public class Main
 						
 					break;
 					default:
-					
+						System.out.println("Incorrect command. Type 'h' to display the help.");
 					break;
 				}
 				System.out.print(">> ");
@@ -266,7 +289,7 @@ public class Main
  		}
 	}
 	
-	private static void printAvailableCommands() {
+	private static void printAvailableCommands(boolean dispPlayerOptions) {
 		System.out.println("t: display the album titles, ordered by date");
 		System.out.println("g: display songs of an album, ordered by genre");
 		System.out.println("d: display songs of an album");
@@ -277,7 +300,16 @@ public class Main
 		System.out.println("l: add a new audiobook");
 		System.out.println("p: create a new playlist from existing songs and audio books");
 		System.out.println("-: delete an existing playlist");
+		System.out.println("w: play a song from a file");
 		System.out.println("s: save elements, albums, playlists");
+		if(dispPlayerOptions) {
+			System.out.println(" --------------------------------");
+			System.out.println("x: pause / resume the player");
+			System.out.println("v: reach the beginning of the title");
+			System.out.println("b: backwards");
+			System.out.println("n: forward");
+		}
+		System.out.println(" --------------------------------");
 		System.out.println("q: quit program");
 	}
 }

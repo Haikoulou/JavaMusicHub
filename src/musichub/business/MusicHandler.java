@@ -1,7 +1,7 @@
 package musichub.business;
 
 import java.io.File;
-import java.util.Scanner;
+import java.util.List;
 import javax.sound.sampled.*;
 import javax.swing.JOptionPane;
 
@@ -13,17 +13,31 @@ public class MusicHandler {
     /** 
      * <b>MusicHandler constructor</b> 
      * 
-     *  This constructor creates a Clip object and loads a .wav file in it
+     *  Prepare the MusicHandler to load streams.
+     * 
+     */ 
+	public MusicHandler() {
+		try {
+			clip = AudioSystem.getClip();
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "Error : can't prepare MusicHandler");
+		}
+	}
+	
+	/** 
+     * <b>MusicHandler loadFile</b> 
+     * 
+     *  Load the stream into the clip from a file
      * 
      * @param String filepath : 
      *     path to the .wav file that will be loaded
-     */ 
-	public MusicHandler(String filepath) {
+     */ 	
+	public void loadFile(String filepath) {
 		try {
 			File file = new File(filepath);
 			AudioInputStream stream = AudioSystem.getAudioInputStream(file);
-
-			clip = AudioSystem.getClip();
+			
 			clip.open(stream);
 		}
 		catch(Exception e) {
@@ -115,5 +129,15 @@ public class MusicHandler {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+	}
+	
+	/** 
+     * <b>MusicHandler isRunning</b> 
+     * 
+     *  returns if a title is being played or not
+     * 
+     */	
+	public boolean isRunning() {
+		return clip.isRunning();
 	}
 }
