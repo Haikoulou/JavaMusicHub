@@ -4,18 +4,29 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
-public class ServerConnection { //Non-functionnal
+public class ServerConnection {
+	private String ip;
+	private int port;
+	
 	private ObjectOutputStream output = null;
 	private ObjectInputStream input = null;
 	private Socket socket = null;
 	
-	public ServerConnection(String ip, int port) {
+	public ServerConnection(String ip, int port) throws ConnectionFailureException{
+		this.ip = ip;
+		if(port < 1000 || port > 65535) throw new ConnectionFailureException("Incorrect port range.");
+		this.port = port;
+		
 		System.out.println("Trying to reach server...");
 		try {
 			this.socket = new Socket(ip, port);
-			System.out.println("Client connected");
+			System.out.println("Client connected!");
 			this.output = new ObjectOutputStream(socket.getOutputStream());
 	        this.input = new ObjectInputStream(socket.getInputStream());
+	        
+	        if(!this.isSetup() || !this.isConnected() || this.ping()) throw new ConnectionFailureException("The server cannot be reached. Please check your network configuration and try again.");
+	        
+	        this.CloseConnection();
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
@@ -24,13 +35,18 @@ public class ServerConnection { //Non-functionnal
 		}
 	}
 	
-	public List<Song> requestSongs(){
-		List<Song> list = new ArrayList<>();
+	public List<AudioElement> requestAudioElements() throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		List<AudioElement> list = new ArrayList<>();
 		try {
-			String outputString = new String("SONGS");
-			this.output.writeObject(outputString);
-			//this.output.writeChars("SONGS");
-			list = (List<Song>) this.input.readObject();
+			this.output.writeObject("GETAUDIOELEMENTS");
+			Object inputReceived = this.input.readObject();
+			if(inputReceived instanceof List<?>) {
+				list = (List<AudioElement>)inputReceived;
+			}
+			this.output.flush();
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
@@ -41,40 +57,72 @@ public class ServerConnection { //Non-functionnal
 			cfe.printStackTrace();
 		}
 		
-		this.input = null;
-		this.output = null;
-		
+		this.CloseConnection();
 		return list;
 	}
 	
-	public List<AudioBook> requestAudioBooks(){
-		List<AudioBook> list = new ArrayList<>();
+	public void sendElements(List<AudioElement> elements) throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
 		try {
-			String outputString = new String("AUDIOBOOKS");
-			this.output.writeObject(outputString);
-			list = (List<AudioBook>) this.input.readObject();
+			this.output.writeObject(elements);
+			this.output.flush();
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
 		catch  (IOException ioe) {
 			ioe.printStackTrace();
 		}
-		catch  (ClassNotFoundException cfe) {
-			cfe.printStackTrace();
-		}
 		
-		this.input = null;
-		this.output = null;
-		
-		return list;
+		this.CloseConnection();
 	}
 	
-	public List<Album> requestAlbums(){
+	public void sendAlbums(List<Album> albums) throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		try {
+			this.output.writeObject(albums);
+			this.output.flush();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		this.CloseConnection();
+	}
+	
+	public void sendPlaylists(List<PlayList> playlists) throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		try {
+			this.output.writeObject(playlists);
+			this.output.flush();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		this.CloseConnection();
+	}
+	
+	public List<Album> requestAlbums() throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
 		List<Album> list = new ArrayList<>();
 		try {
-			String outputString = new String("ALBUMS");
-			this.output.writeObject(outputString);
-			list = (List<Album>) this.input.readObject();
+			this.output.writeObject("GETALBUMS");
+			Object inputReceived = this.input.readObject();
+			if(inputReceived instanceof List<?>) {
+				list = (List<Album>)inputReceived;
+			}
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
@@ -85,18 +133,21 @@ public class ServerConnection { //Non-functionnal
 			cfe.printStackTrace();
 		}
 		
-		this.input = null;
-		this.output = null;
-		
+		this.CloseConnection();
 		return list;
 	}
 	
-	public List<PlayList> requestPlaylists(){
+	public List<PlayList> requestPlaylists() throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
 		List<PlayList> list = new ArrayList<>();
 		try {
-			String outputString = new String("PLAYLISTS");
-			this.output.writeObject(outputString);
-			list = (List<PlayList>) this.input.readObject();
+			this.output.writeObject("GETPLAYLISTS");
+			Object inputReceived = this.input.readObject();
+			if(inputReceived instanceof List<?>) {
+				list = (List<PlayList>)inputReceived;
+			}
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
 		}
@@ -107,8 +158,7 @@ public class ServerConnection { //Non-functionnal
 			cfe.printStackTrace();
 		}
 		
-		this.input = null;
-		this.output = null;
+		this.CloseConnection();
 		
 		return list;
 	}
@@ -124,7 +174,41 @@ public class ServerConnection { //Non-functionnal
 		return this.socket.isConnected();
 	}
 	
-	public void CloseConnection() {
+	private boolean ping() {
+		String answer = new String();
+		try {
+			this.output.writeObject("ping");
+			answer = (String) this.input.readObject();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		catch  (ClassNotFoundException cfe) {
+			cfe.printStackTrace();
+		}
+		
+		if(answer == "pong") //ping pong
+			return true;
+		else
+			return false;
+	}
+	
+	private void connect() {
+		try {
+			this.socket = new Socket(this.ip, this.port);
+			this.output = new ObjectOutputStream(socket.getOutputStream());
+	        this.input = new ObjectInputStream(socket.getInputStream());
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		}
+		catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	private void CloseConnection() {
 		try {
 			this.input.close();
 			this.output.close();

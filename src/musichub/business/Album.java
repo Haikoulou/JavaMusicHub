@@ -1,12 +1,13 @@
 package musichub.business;
 
 import java.util.*;
+import java.io.Serializable;
 import org.w3c.dom.*;
 import java.text.*;
 
 
 
-public class Album {
+public class Album implements Serializable {
 	private String title;
 	private String artist;
 	private int lengthInSeconds;

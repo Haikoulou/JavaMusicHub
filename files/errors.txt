@@ -1,0 +1,22 @@
+avr. 28, 2021 4:09:18 PM musichub.business.LogException <init>
+CONFIG: The server cannot be reached. Please check your network configuration and try again.
+avr. 30, 2021 4:43:59 PM musichub.business.LogException <init>
+CONFIG: The server cannot be reached. Please check your network configuration and try again.
+avr. 30, 2021 4:44:49 PM musichub.business.LogException <init>
+CONFIG: The server cannot be reached. Please check your network configuration and try again.
+avr. 30, 2021 7:24:58 PM musichub.business.LogException <init>
+CONFIG: The server cannot be reached. Please check your network configuration and try again.
+avr. 30, 2021 7:29:58 PM musichub.business.LogException <init>
+WARNING: No album with this title in the MusicHub!
+avr. 30, 2021 9:25:05 PM musichub.business.LogException <init>
+WARNING: No album with this title in the MusicHub!
+avr. 30, 2021 9:41:45 PM musichub.business.LogException <init>
+INFO: The server cannot be reached. Please check your network configuration and try again.
+avr. 30, 2021 9:45:31 PM musichub.business.LogException <init>
+INFO: The server cannot be reached. Please check your network configuration and try again.
+avr. 30, 2021 9:46:13 PM musichub.business.LogException <init>
+INFO: The server cannot be reached. Please check your network configuration and try again.
+avr. 30, 2021 9:47:41 PM musichub.business.LogException <init>
+INFO: The server cannot be reached. Please check your network configuration and try again.
+avr. 30, 2021 9:48:16 PM musichub.business.LogException <init>
+INFO: The server cannot be reached. Please check your network configuration and try again.
