@@ -1,13 +1,14 @@
 package musichub.business;
 
 import java.io.File;
-import java.util.List;
+import java.util.*;
 import javax.sound.sampled.*;
 import javax.swing.JOptionPane;
 
 public class MusicHandler {
 	
 	private Clip clip;
+	private ArrayList<AudioInputStreamCache> cache;
 	
 	
     /** 
@@ -17,6 +18,7 @@ public class MusicHandler {
      * 
      */ 
 	public MusicHandler() {
+		this.cache = new ArrayList<AudioInputStreamCache>();
 		try {
 			clip = AudioSystem.getClip();
 		}
@@ -35,14 +37,87 @@ public class MusicHandler {
      */ 	
 	public void loadFile(String filepath) {
 		try {
-			File file = new File(filepath);
-			AudioInputStream stream = AudioSystem.getAudioInputStream(file);
-			
+			if(checkCache(filepath)) {
+				clip.open(getCacheStream(filepath));
+			}
+			else {
+				File file = new File(filepath);
+				AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+				clip.open(stream);
+				addCache(filepath, stream);
+			}
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "Error : can't load music");
+		}
+	}
+	
+	/** 
+     * <b>MusicHandler loadStream</b> 
+     * 
+     *  Load the stream into the clip from a stream
+     * 
+     * @param AudioInputStream stream : 
+     *     stream of the title
+     */ 	
+	public void loadStream(AudioInputStream stream) {
+		try {
 			clip.open(stream);
 		}
 		catch(Exception e) {
 			JOptionPane.showMessageDialog(null, "Error : can't load music");
 		}
+	}
+	
+	/** 
+     * <b>MusicHandler checkCache</b> 
+     * 
+     *  Returns if the title is already loaded in the cache
+     * 
+     * @param String name : 
+     *     name of the file or uuid of the title
+     */ 	
+	public boolean checkCache(String name) {
+		for(AudioInputStreamCache aisc : cache) {
+			if(aisc.getName() == name)
+				return true;
+		}
+		return false;
+	}
+	
+	/** 
+     * <b>MusicHandler checkCache</b> 
+     * 
+     *  Returns the stream by its id in the cache
+     * 
+     * @param String name : 
+     *     name of the file or uuid of the title
+     */ 	
+	public AudioInputStream getCacheStream(String name) throws StreamCacheBrokenException {
+		AudioInputStream streamToReturn = null;
+		for(AudioInputStreamCache aisc : cache) {
+			if(aisc.getName() == name) {
+				streamToReturn = aisc.getStream();
+			}
+		}
+		
+		if(streamToReturn == null) throw new StreamCacheBrokenException("The stream cannot be found in the cache. Please restart the program if the error persits.");
+		return streamToReturn;
+	}
+	
+	/** 
+     * <b>MusicHandler addCache</b> 
+     * 
+     *  Store a stream into the cache
+     * 
+     * @param String name : 
+     *     name of the file or uuid of the title
+     * @param AudioInputStream stream : 
+     *     stream of the title
+     */ 	
+	public void addCache(String name, AudioInputStream stream) {
+		AudioInputStreamCache newElement = new AudioInputStreamCache(stream, name);
+		this.cache.add(newElement);
 	}
 	
     /** 

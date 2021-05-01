@@ -9,10 +9,7 @@ public class Main
 {
  	public static void main (String[] args) {
  		//Reading the arguments
- 		int server = 1;
- 		MusicHandler music = new MusicHandler();
- 		
- 		
+ 		int server = 1;	
 		
 
  		if(args.length >= 1)
@@ -51,7 +48,7 @@ public class Main
 			while (choice.charAt(0)!= 'q') 	{
 				switch (choice.charAt(0)) 	{
 					case 'h':
-						printAvailableCommands(music.isRunning());
+						printAvailableCommands(theHub.music.isRunning());
 						//choice = scan.nextLine();
 					break;
 					case 't':
@@ -251,26 +248,26 @@ public class Main
 						//choice = scan.nextLine();
 					break;
 					case 'w':
-						music.close();
+						theHub.music.close();
 						System.out.print("Enter the name of the file : ");
 						String fileName = scan.nextLine();
-						music.loadFile(fileName);
-						music.play();
+						theHub.music.loadFile(fileName);
+						theHub.music.play();
 					break;
 					case 'x':
-						if(music.isRunning())
-							music.pause();
+						if(theHub.music.isRunning())
+							theHub.music.pause();
 						else
-							music.play();
+							theHub.music.play();
 					break;
 					case 'v':
-						music.reset();
+						theHub.music.reset();
 					break;
 					case 'b':
-						music.rewind();
+						theHub.music.rewind();
 					break;
 					case 'n':
-						music.fastForward();
+						theHub.music.fastForward();
 					break;
 					case 's':
 						//save elements, albums, playlists

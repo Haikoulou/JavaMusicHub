@@ -28,6 +28,8 @@ public class MusicHub {
 	private List<Album> albums;
 	private List<PlayList> playlists;
 	private List<AudioElement> elements;
+	public MusicHandler music;
+	
 	private ServerConnection conn;
 	
 	public MusicHub () throws ConnectionFailureException {
@@ -42,7 +44,9 @@ public class MusicHub {
 		this.loadAlbumsServer();
 		this.loadPlaylistsServer();
 		
-		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");		
+		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");
+		
+		this.music = new MusicHandler();
 	}
 	
 	public void updateElementsServer() {
