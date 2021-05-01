@@ -22,3 +22,27 @@ avr. 30, 2021 9:48:16 PM musichub.business.LogException <init>
 INFO: The server cannot be reached. Please check your network configuration and try again.
 mai 01, 2021 12:31:19 PM musichub.business.LogException <init>
 WARNING: No album with this title in the MusicHub!
+mai 01, 2021 5:01:58 PM musichub.business.LogException <init>
+WARNING: There is no AudioElement with the title Fernando!
+mai 01, 2021 5:02:58 PM musichub.business.LogException <init>
+WARNING: There is no AudioElement with the title Fernando!
+mai 01, 2021 5:03:45 PM musichub.business.LogException <init>
+WARNING: There is no AudioElement with the title Fernando!
+mai 01, 2021 5:04:43 PM musichub.business.LogException <init>
+WARNING: There is no AudioElement with the title Fernando!
+mai 01, 2021 5:06:42 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 01, 2021 5:29:34 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path for the title Truc
+mai 01, 2021 5:30:27 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path for the title Truc
+mai 01, 2021 5:32:15 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path for the title Truc
+mai 01, 2021 5:32:58 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path for the title Truc
+mai 01, 2021 5:34:59 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path for the title Truc
+mai 01, 2021 5:38:34 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path for the title Truc
+mai 01, 2021 5:39:35 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path (truc.wav) of the title Truc

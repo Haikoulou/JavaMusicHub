@@ -3,6 +3,7 @@ package musichub.server;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import javax.sound.sampled.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -15,7 +16,8 @@ import musichub.business.AudioElement;
 import musichub.business.NoPlayListFoundException;
 import musichub.business.PlayList;
 import musichub.business.Song;
-import musichub.util.XMLHandler;
+import musichub.business.StreamNotFoundException;
+import musichub.util.*;
 
 public class MusicHubServer {
 	private List<Album> albums;
@@ -80,6 +82,19 @@ public class MusicHubServer {
 	}
 	
 	//Elements management
+	
+	public AudioInputStream getAudioStream(AudioElement element) throws StreamNotFoundException {
+		AudioInputStream stream = null;
+		System.out.println(element.getContent());
+		for(AudioElement ae : elements) {
+			if(ae.equals(element)) {
+				stream = new FileStreamHandler().getStreamFile(element.getContent());
+			}
+		}
+		
+		if(stream == null) throw new StreamNotFoundException("Incorrect audio file path (" + element.getContent() + ") of the title " + element.getTitle());
+		return stream;
+	}
 	
 	public Iterator<Album> albums() { 
 		return albums.listIterator();

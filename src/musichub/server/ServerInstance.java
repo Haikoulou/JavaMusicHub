@@ -61,7 +61,9 @@ public class ServerInstance extends Thread {
 					default:
 						System.out.println("Incorrect array form.");
 					}
-					
+				} else if(inputReader instanceof AudioElement) { //Le client nous demande le fichier audio d'un element audio
+					AudioElement element = (AudioElement)inputReader;
+					sendStream(element);
 				}
 			}
 			
@@ -112,6 +114,17 @@ public class ServerInstance extends Thread {
 		}
 		
 		return checkElements;
+	}
+	
+	private void sendStream(AudioElement element) {
+		try {
+			this.output.writeObject(theHubServer.getAudioStream(element));
+			this.output.flush();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} catch (StreamNotFoundException s) {
+			s.printStackTrace();
+		}
 	}
 	
 	private void sendAudioElements() {

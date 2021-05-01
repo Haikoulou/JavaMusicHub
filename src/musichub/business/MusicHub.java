@@ -2,6 +2,7 @@ package musichub.business;
 
 import java.util.*;
 import musichub.util.*;
+import javax.sound.sampled.*;
 
 class SortByDate implements Comparator<Album>
 {
@@ -47,6 +48,18 @@ public class MusicHub {
 		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");
 		
 		this.music = new MusicHandler();
+	}
+	
+	public AudioInputStream downloadStreamServer(AudioElement element) throws StreamNotFoundException{
+		AudioInputStream stream = null;
+		try {
+			stream = conn.getStream(element);
+		} catch (ConnectionLostException cle) {
+			cle.printStackTrace();
+		}
+		
+		if(stream == null) throw new StreamNotFoundException("Impossible to find the title' stream from the server.");
+		return stream;
 	}
 	
 	public void updateElementsServer() {
@@ -247,6 +260,32 @@ public class MusicHub {
 			
 		} else throw new NoPlayListFoundException("Playlist " + playListTitle + " not found!");
 		
+	}
+	
+	public String getUuidByName(String name) throws NoElementFoundException {
+		AudioElement element = null;
+		for(AudioElement e : elements) {
+			if(e.getTitle() == name) {
+				element = e;
+				break;
+			}
+		}
+		
+		if(element == null) throw new NoElementFoundException("Title not found!");
+		return element.getUUID().toString();
+	}
+	
+	public AudioElement getAudioElementByName(String name) throws NoElementFoundException {
+		AudioElement element = null;
+		for(AudioElement e : elements) {
+			if(e.getTitle().toLowerCase().equals(name.toLowerCase())) {
+				element = e;
+				break;
+			}
+		}
+		
+		if(element == null) throw new NoElementFoundException("There is no AudioElement with the title " + name + "!");
+		return element;
 	}
 	
 	private void loadAudioElementsServer() {

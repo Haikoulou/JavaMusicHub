@@ -70,6 +70,26 @@ public class MusicHandler {
 	}
 	
 	/** 
+     * <b>MusicHandler loadStream</b> 
+     * 
+     *  Load the stream into the clip from a stream and store it into the cache
+     * 
+     * @param AudioInputStream stream : 
+     *     stream of the title
+     * @param String name : 
+     *     name or uuid of the title
+     */ 	
+	public void loadStream(AudioInputStream stream, String name) {
+		try {
+			clip.open(stream);
+			addCache(name, stream);
+		}
+		catch(Exception e) {
+			JOptionPane.showMessageDialog(null, "Error : can't load music");
+		}
+	}
+	
+	/** 
      * <b>MusicHandler checkCache</b> 
      * 
      *  Returns if the title is already loaded in the cache

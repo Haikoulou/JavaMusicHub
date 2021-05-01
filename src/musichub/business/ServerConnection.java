@@ -3,6 +3,7 @@ package musichub.business;
 import java.util.*;
 import java.io.*;
 import java.net.*;
+import javax.sound.sampled.*;
 
 public class ServerConnection {
 	private String ip;
@@ -110,6 +111,31 @@ public class ServerConnection {
 		}
 		
 		this.CloseConnection();
+	}
+	
+	public AudioInputStream getStream(AudioElement element) throws ConnectionLostException{
+		AudioInputStream stream = null;
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		try {
+			this.output.writeObject(element);
+			Object inputReceived = this.input.readObject();
+			if(inputReceived instanceof AudioInputStream) {
+				stream = (AudioInputStream)inputReceived;
+			}
+			this.output.flush();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		} catch  (IOException ioe) {
+			ioe.printStackTrace();
+		} catch  (ClassNotFoundException cl) {
+			cl.printStackTrace();
+		}
+		
+		this.CloseConnection();
+		
+		return stream;
 	}
 	
 	public List<Album> requestAlbums() throws ConnectionLostException{

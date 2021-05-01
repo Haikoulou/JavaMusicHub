@@ -247,12 +247,32 @@ public class Main
 						//printAvailableCommands();
 						//choice = scan.nextLine();
 					break;
-					case 'w':
+					case 'f':
 						theHub.music.close();
 						System.out.print("Enter the name of the file : ");
 						String fileName = scan.nextLine();
 						theHub.music.loadFile(fileName);
 						theHub.music.play();
+					break;
+					case 'w':
+						theHub.music.close();
+						System.out.print("Enter the name of the title : ");
+						String titleName = scan.nextLine();
+						try {
+							AudioElement audioElement = theHub.getAudioElementByName(titleName);
+							if(theHub.music.checkCache(audioElement.getUUID().toString())) {//If the title is already in the cache
+								theHub.music.loadStream(theHub.music.getCacheStream(audioElement.getUUID().toString())); //Get the stream from the cache
+							} else { //If not, download it from the server
+								theHub.music.loadStream(theHub.downloadStreamServer(audioElement)); //Get the stream from the server and cache it
+							}
+							theHub.music.play();
+						} catch (NoElementFoundException e) {
+							e.printStackTrace();
+						} catch (StreamCacheBrokenException e) {
+							e.printStackTrace();
+						} catch (StreamNotFoundException e) {
+								e.printStackTrace();
+							}
 					break;
 					case 'x':
 						if(theHub.music.isRunning())
@@ -297,7 +317,8 @@ public class Main
 		System.out.println("l: add a new audiobook");
 		System.out.println("p: create a new playlist from existing songs and audio books");
 		System.out.println("-: delete an existing playlist");
-		System.out.println("w: play a song from a file");
+		System.out.println("f: play a song from a file");
+		System.out.println("w: play a song from a name");
 		System.out.println("s: save elements, albums, playlists");
 		if(dispPlayerOptions) {
 			System.out.println(" --------------------------------");
