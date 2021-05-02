@@ -110,3 +110,17 @@ mai 02, 2021 4:30:34 PM musichub.business.LogException <init>
 WARNING: There is no AudioElement with the title Guitare!
 mai 02, 2021 5:01:27 PM musichub.business.LogException <init>
 WARNING: This player can only play WAV files (for the moment UwU)
+mai 02, 2021 5:24:33 PM musichub.business.LogException <init>
+WARNING: This player can only play WAV files (for the moment UwU)
+mai 02, 2021 5:25:39 PM musichub.business.LogException <init>
+WARNING: This player can only play WAV files (for the moment UwU)
+mai 02, 2021 5:27:57 PM musichub.business.LogException <init>
+WARNING: This player can only play WAV files (for the moment UwU)
+mai 02, 2021 5:28:28 PM musichub.business.LogException <init>
+WARNING: This player can only play WAV files (for the moment UwU)
+mai 02, 2021 5:38:39 PM musichub.business.LogException <init>
+WARNING: Album Discovery not found!
+mai 02, 2021 5:43:32 PM musichub.business.LogException <init>
+WARNING: There is no AudioElement with the title P!
+mai 02, 2021 5:58:32 PM musichub.business.LogException <init>
+INFO: Helo

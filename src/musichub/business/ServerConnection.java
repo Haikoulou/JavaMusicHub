@@ -135,6 +135,28 @@ public class ServerConnection {
 		this.CloseConnection();
 	}
 	
+	public void sendAudioFile(AudioElement element) throws ConnectionLostException {
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		try {
+			System.out.println("Sending " + element.getContent());
+			InputStream inputFile = new FileInputStream(element.getContent());
+			byte[] bytes = new byte[16*1024];
+			
+			int count;
+			while((count = inputFile.read(bytes)) > 0) {
+				this.output.write(bytes, 0, count);
+			}
+			inputFile.close();
+			this.output.flush();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		this.CloseConnection();
+	}
+	
 	public List<Album> requestAlbums() throws ConnectionLostException{
 		this.connect();
 		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");

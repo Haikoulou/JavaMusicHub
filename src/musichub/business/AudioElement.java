@@ -38,15 +38,26 @@ public abstract class AudioElement implements Serializable {
 			lengthInSeconds = Integer.parseInt(xmlElement.getElementsByTagName("length").item(0).getTextContent());
 			content = xmlElement.getElementsByTagName("content").item(0).getTextContent();
 			String uuid = null;
+			String format = null;
 			try {
 				uuid = xmlElement.getElementsByTagName("UUID").item(0).getTextContent();
 			}
 			catch (Exception ex) {
 				System.out.println ("Empty element UUID, will create a new one");
 			}
+			try {
+				format = xmlElement.getElementsByTagName("format").item(0).getTextContent();
+			}
+			catch (Exception ex) {
+				System.out.println ("Unknow format, will set noformat by default.");
+			}
 			if ((uuid == null)  || (uuid.isEmpty()))
 				this.uuid = UUID.randomUUID();
 			else this.uuid = UUID.fromString(uuid);
+			
+			if ((format == null)  || (format.isEmpty()))
+				this.format = Format.NOFORMAT;
+			else setFormat(format);
 		} catch (Exception ex) {
 			throw ex;
 		}
@@ -55,12 +66,15 @@ public abstract class AudioElement implements Serializable {
 	private void setFormat(String format) {
 		switch (format.toLowerCase()) {
 		case "mp3":
-		default:
 			this.format = Format.MP3;
 			break;
 		case "wav":
 			this.format = Format.WAV;
-			break;			
+			break;
+		case "noformat":
+		default:
+			this.format = Format.NOFORMAT;
+			break;
 	}
 	}
 	

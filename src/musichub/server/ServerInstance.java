@@ -23,6 +23,9 @@ public class ServerInstance extends Thread {
 			this.input = new ObjectInputStream(socket.getInputStream());
 			this.output = new ObjectOutputStream(socket.getOutputStream());
 			
+			
+			System.out.println("REC : " + socket.getInputStream().toString());
+			
 			Object inputReader = input.readObject();
 			
 			if(inputReader.getClass().getName() == "java.lang.String") {

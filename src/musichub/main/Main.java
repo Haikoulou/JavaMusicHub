@@ -108,7 +108,12 @@ public class Main
 	                    String format = scan.nextLine();
 	                    Song s = new Song (title, artist, length, content, genre, format);
 	                    theHub.addElement(s);
-	                    theHub.updateElementsServer();
+	                    //theHub.updateElementsServer();
+	                    try {
+	                    	theHub.sendAudioFileServer(s);
+	                    } catch (NoAudioFileException e) {
+	                    	System.out.println(e);
+	                    }
 	                    System.out.println("New element list: ");
 	                    Iterator<AudioElement> it = theHub.elements();
 	                    while (it.hasNext()) System.out.println(it.next().getTitle());

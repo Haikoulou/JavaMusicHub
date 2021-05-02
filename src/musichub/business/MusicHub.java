@@ -91,12 +91,22 @@ public class MusicHub {
 	}
 	
 	public void clearCache() {
-		File cache = new File("tmp/audio");
+		File cache = new File("tmp/audio/");
 		File[] files = cache.listFiles();
 		if(files != null) {
 			for(File f : files) {
 				f.delete();
 			}
+		}
+	}
+	
+	public void sendAudioFileServer(AudioElement ae) throws NoAudioFileException{
+		File audioFile = new File(ae.getContent());
+		if(!audioFile.exists()) throw new NoAudioFileException("The provided file " + ae.getContent() + " does not exist!");
+		try {
+			conn.sendAudioFile(ae);
+		} catch (ConnectionLostException cle) {
+			cle.printStackTrace();
 		}
 	}
 	
