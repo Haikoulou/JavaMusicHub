@@ -4,6 +4,8 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 
+import javax.sound.sampled.*;
+
 public class ServerConnection {
 	private String ip;
 	private int port;
@@ -134,6 +136,32 @@ public class ServerConnection {
 		
 		this.CloseConnection();
 	}
+	
+	/*
+	public void getAudioStream(AudioElement element) throws ConnectionLostException{
+		this.connect();
+		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
+		
+		try {
+			//OutputStream outputFile = new FileOutputStream("tmp/audio/" + element.getUUID().toString() + "." + element.getFormat());
+			OutputStream 
+			this.output.writeObject(element);
+			byte[] bytes = new byte[16*1024];
+			int count;
+	        while ((count = this.input.read(bytes)) > 0) {
+	            outputStream.write(bytes, 0, count);
+	        }
+	        AudioInputStream
+	        outputStream.close();
+			this.output.flush();
+		} catch  (UnknownHostException uhe) {
+			uhe.printStackTrace();
+		} catch  (IOException ioe) {
+			ioe.printStackTrace();
+		}
+		
+		this.CloseConnection();
+	}*/
 	
 	public void sendAudioFile(AudioElement element) throws ConnectionLostException {
 		this.connect();

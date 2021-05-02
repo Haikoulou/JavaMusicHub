@@ -86,12 +86,10 @@ public class MusicHandler {
      * 
      */
 	public void fastForward() {
-		try{
+		
 			long position = clip.getMicrosecondPosition();
 			clip.setMicrosecondPosition(position+5000000);
-		} catch(Exception e) {
-			//TODO: handle exception
-		}
+		
 	}
 	
     /** 

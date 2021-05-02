@@ -100,24 +100,6 @@ public class MusicHub {
 		}
 	}
 	
-	public void sendAudioFileServer(AudioElement ae) throws NoAudioFileException{
-		File audioFile = new File(ae.getContent());
-		if(!audioFile.exists()) throw new NoAudioFileException("The provided file " + ae.getContent() + " does not exist!");
-		try {
-			conn.sendAudioFile(ae);
-		} catch (ConnectionLostException cle) {
-			cle.printStackTrace();
-		}
-	}
-	
-	public void updateElementsServer() {
-		try {
-			conn.sendElements(elements);
-		} catch (ConnectionLostException cle) {
-			cle.printStackTrace();
-		}
-	}
-	
 	public void updateAlbumsServer() {
 		try {
 			conn.sendAlbums(albums);
@@ -241,38 +223,6 @@ public class MusicHub {
 			}
 		Collections.sort(songsInAlbum, new SortByGenre());
 		return songsInAlbum;		
-		
-	}
-
-	public void addElementToAlbum(String elementTitle, String albumTitle) throws NoAlbumFoundException, NoElementFoundException
-	{
-		Album theAlbum = null;
-		int i = 0;
-		boolean found = false; 
-		for (i = 0; i < albums.size(); i++) {
-			if (albums.get(i).getTitle().toLowerCase().equals(albumTitle.toLowerCase())) {
-				theAlbum = albums.get(i);
-				found = true;
-				break;
-			}
-		}
-
-		if (found == true) {
-			AudioElement theElement = null;
-			for (AudioElement ae : elements) {
-				if (ae.getTitle().toLowerCase().equals(elementTitle.toLowerCase())) {
-					theElement = ae;
-					break;
-				}
-			}
-            if (theElement != null) {
-                theAlbum.addSong(theElement.getUUID());
-                //replace the album in the list
-                albums.set(i,theAlbum);
-            }
-            else throw new NoElementFoundException("Element " + elementTitle + " not found!");
-		}
-		else throw new NoAlbumFoundException("Album " + albumTitle + " not found!");
 		
 	}
 	

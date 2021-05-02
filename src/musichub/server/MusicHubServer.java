@@ -14,13 +14,15 @@ import org.w3c.dom.NodeList;
 import musichub.business.Album;
 import musichub.business.AudioBook;
 import musichub.business.AudioElement;
+import musichub.business.NoAlbumFoundException;
+import musichub.business.NoElementFoundException;
 import musichub.business.NoPlayListFoundException;
 import musichub.business.PlayList;
 import musichub.business.Song;
 import musichub.business.StreamNotFoundException;
 import musichub.util.*;
 
-public class MusicHubServer {
+public class MusicHubServer extends Thread {
 	private List<Album> albums;
 	private List<PlayList> playlists;
 	private List<AudioElement> elements;
@@ -30,6 +32,7 @@ public class MusicHubServer {
 	public static final String ALBUMS_FILE_PATH = DIR + "\\files\\albums.xml";
 	public static final String PLAYLISTS_FILE_PATH = DIR + "\\files\\playlists.xml";
 	public static final String ELEMENTS_FILE_PATH = DIR + "\\files\\elements.xml";
+	public static final String AUDIOFILES_FILE_PATH = DIR + "\\files\\content\\";
 	
 	private XMLHandler xmlHandler = new XMLHandler();
 	private FileStreamHandler fileStreamHandler = new FileStreamHandler();
@@ -71,7 +74,7 @@ public class MusicHubServer {
 		}
 	}
 	
-	public void stop() {
+	public void close() {
 		if (ss != null && !ss.isClosed()) {
 			System.out.println("Closing connection...");
 			try {
@@ -158,6 +161,38 @@ public class MusicHubServer {
 		if (thePlayList != null)  		
 			result = playlists.remove(thePlayList); 
 		if (!result) throw new NoPlayListFoundException("Playlist " + playListTitle + " not found!");
+	}
+	
+	public void addElementToAlbum(String elementTitle, String albumTitle) throws NoAlbumFoundException, NoElementFoundException
+	{
+		Album theAlbum = null;
+		int i = 0;
+		boolean found = false; 
+		for (i = 0; i < albums.size(); i++) {
+			if (albums.get(i).getTitle().toLowerCase().equals(albumTitle.toLowerCase())) {
+				theAlbum = albums.get(i);
+				found = true;
+				break;
+			}
+		}
+
+		if (found == true) {
+			AudioElement theElement = null;
+			for (AudioElement ae : elements) {
+				if (ae.getTitle().toLowerCase().equals(elementTitle.toLowerCase())) {
+					theElement = ae;
+					break;
+				}
+			}
+            if (theElement != null) {
+                theAlbum.addSong(theElement.getUUID());
+                //replace the album in the list
+                albums.set(i,theAlbum);
+            }
+            else throw new NoElementFoundException("Element " + elementTitle + " not found!");
+		}
+		else throw new NoAlbumFoundException("Album " + albumTitle + " not found!");
+		
 	}
 	
 	private void loadElements () {

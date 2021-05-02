@@ -4,6 +4,10 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.UnsupportedAudioFileException;
+
 import musichub.business.*;
 
 public class ServerInstance extends Thread {
@@ -67,6 +71,12 @@ public class ServerInstance extends Thread {
 				} else if(inputReader instanceof AudioElement) { //Le client nous demande le fichier audio d'un element audio
 					AudioElement element = (AudioElement)inputReader;
 					sendAudioFile(element);
+					/*
+					try {
+						sendAudioStream(element);
+					} catch (IncorrectAudioFormatException e) {
+						System.out.println(e);
+					}*/
 				}
 			}
 			
@@ -132,6 +142,29 @@ public class ServerInstance extends Thread {
 			inputFile.close();
 			this.output.flush();
 		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+	}
+	
+	private void sendAudioStream(AudioElement ae) throws IncorrectAudioFormatException {
+		if(!ae.getFormat().equals("wav")) throw new IncorrectAudioFormatException("This player can only play WAV files (for the moment UwU)");
+		try {
+			System.out.println("Sending " + ae.getContent());
+			//InputStream inputFile = new FileInputStream("files/content/" + element.getContent());
+			File audioFile = new File("files/content/" + ae.getContent());
+			AudioInputStream stream = AudioSystem.getAudioInputStream(audioFile);
+			InputStream inputStream = new AudioInputStream(stream, stream.getFormat(), stream.getFrameLength());
+			byte[] bytes = new byte[16*1024];
+			
+			int count;
+			while((count = inputStream.read(bytes)) > 0) {
+				this.output.write(bytes, 0, count);
+			}
+			inputStream.close();
+			this.output.flush();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} catch (UnsupportedAudioFileException ioe) {
 			ioe.printStackTrace();
 		}
 	}
