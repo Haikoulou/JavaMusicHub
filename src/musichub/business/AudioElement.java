@@ -10,21 +10,24 @@ public abstract class AudioElement implements Serializable {
 	protected int    	lengthInSeconds;
 	protected UUID    	uuid;
 	protected String	content;
+	protected Format	format;
 	
-	public AudioElement (String title, String artist, int lengthInSeconds, String id, String content) {
+	public AudioElement (String title, String artist, int lengthInSeconds, String id, String content, String format) {
 		this.title = title;
 		this.artist = artist;
 		this.lengthInSeconds = lengthInSeconds;
 		this.uuid = UUID.fromString(id);
 		this.content = content;
+		this.setFormat(format);
 	}
 
-	public AudioElement (String title, String artist, int lengthInSeconds, String content) {
+	public AudioElement (String title, String artist, int lengthInSeconds, String content, String format) {
 		this.title = title;
 		this.artist = artist;
 		this.lengthInSeconds = lengthInSeconds;
 		this.content = content;
 		this.uuid =  UUID.randomUUID();
+		this.setFormat(format);
 	}
 	
 	public AudioElement (Element xmlElement)  throws Exception
@@ -49,6 +52,18 @@ public abstract class AudioElement implements Serializable {
 		}
 	}
 	
+	private void setFormat(String format) {
+		switch (format.toLowerCase()) {
+		case "mp3":
+		default:
+			this.format = Format.MP3;
+			break;
+		case "wav":
+			this.format = Format.WAV;
+			break;			
+	}
+	}
+	
 	public UUID getUUID() {
 		return this.uuid;
 	}
@@ -63,6 +78,13 @@ public abstract class AudioElement implements Serializable {
 	
 	public String getContent() {
 		return this.content;
+	}
+	
+	public String getFormat() {
+		if(this.format == null)
+			return "noformat";
+		else
+			return this.format.getFormat();
 	}
 	
 	public String toString() {
@@ -90,6 +112,10 @@ public abstract class AudioElement implements Serializable {
 		Element contentElement = document.createElement("content");
         contentElement.appendChild(document.createTextNode(content));
         parentElement.appendChild(contentElement);
+        
+        Element formatElement = document.createElement("format");
+        formatElement.appendChild(document.createTextNode(getFormat()));
+        parentElement.appendChild(formatElement);
 
 	}
 	

@@ -7,13 +7,13 @@ import org.w3c.dom.*;
 public class Song extends AudioElement implements Serializable {
 	private Genre genre;
 	
-	public Song (String title, String artist, int length, String uid, String content, String genre) {
-		super (title, artist, length, uid, content);
+	public Song (String title, String artist, int length, String uid, String content, String genre, String format) {
+		super (title, artist, length, uid, content, format);
 		this.setGenre(genre);
 	}
 	
-	public Song (String title, String artist, int length, String content, String genre) {
-		super (title, artist, length, content);
+	public Song (String title, String artist, int length, String content, String genre, String format) {
+		super (title, artist, length, content, format);
 		this.setGenre(genre);
 	}
 	

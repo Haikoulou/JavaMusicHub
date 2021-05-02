@@ -52,9 +52,6 @@ public class LogException extends Exception{
 				logger.log(Level.INFO, msg);
 				break;
 			}
-			
-			//Output on the console
-			System.out.println("[" + level + "] " + msg);
 		}
 		catch(SecurityException e){
 			e.printStackTrace();

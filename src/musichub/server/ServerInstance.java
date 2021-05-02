@@ -26,7 +26,7 @@ public class ServerInstance extends Thread {
 			Object inputReader = input.readObject();
 			
 			if(inputReader.getClass().getName() == "java.lang.String") {
-				System.out.println("server received a command:" + inputReader);
+				System.out.println(socket.getRemoteSocketAddress().toString() + ": " + inputReader);
 				String inputReaderCommand = (String)inputReader;
 				
 				switch(inputReaderCommand) {
@@ -46,7 +46,7 @@ public class ServerInstance extends Thread {
 				}
 			}
 			else { //Il faut determiner quel type d'objet le serveur a reçu
-				System.out.println("server received an object:" + inputReader.getClass().toString());
+				System.out.println("Server received an object: " + inputReader.getClass().toString() + " from " + socket.getRemoteSocketAddress().toString());
 				if(inputReader instanceof List<?>) { //On controle le contenu de la liste
 					switch(this.checkListContent(inputReader)) {
 					case 1:
@@ -118,7 +118,8 @@ public class ServerInstance extends Thread {
 	
 	private void sendAudioFile(AudioElement element) {
 		try {
-			InputStream inputFile = new FileInputStream(element.getContent());
+			System.out.println("Sending " + element.getContent());
+			InputStream inputFile = new FileInputStream("files/content/" + element.getContent());
 			byte[] bytes = new byte[16*1024];
 			
 			int count;

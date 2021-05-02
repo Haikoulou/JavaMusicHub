@@ -29,7 +29,6 @@ public class Main
 	 		MusicHub theHub = null;
 	 		try {
 	 			theHub = new MusicHub ();
-	 			theHub.clearCache();
 	 		} catch (ConnectionFailureException ex){
 				System.out.println ("Erreur lors de la configuration du programme. Arret...");
 				System.exit(-1);
@@ -105,7 +104,9 @@ public class Main
 	                    int length = Integer.parseInt(scan.nextLine());
 	                    System.out.println("Song content: "); 
 	                    String content = scan.nextLine();
-	                    Song s = new Song (title, artist, length, content, genre);
+	                    System.out.println("Song format (mp3, wav): "); 
+	                    String format = scan.nextLine();
+	                    Song s = new Song (title, artist, length, content, genre, format);
 	                    theHub.addElement(s);
 	                    theHub.updateElementsServer();
 	                    System.out.println("New element list: ");
@@ -179,9 +180,11 @@ public class Main
 	                    int bLength = Integer.parseInt(scan.nextLine());
 	                    System.out.println("AudioBook content: "); 
 	                    String bContent = scan.nextLine();
+	                    System.out.println("AudioBook format (mp3, wav): "); 
+	                    String bFormat = scan.nextLine();
 	                    System.out.println("AudioBook language (french, english, italian, spanish, german)");
 	                    String bLanguage = scan.nextLine();
-	                    AudioBook b = new AudioBook (bTitle, bArtist, bLength, bContent, bLanguage, bCategory);
+	                    AudioBook b = new AudioBook (bTitle, bArtist, bLength, bContent, bLanguage, bCategory, bFormat);
 	                    theHub.addElement(b);
 	                    theHub.updateElementsServer();
 	                    System.out.println("Audiobook created! New element list: ");
@@ -249,31 +252,31 @@ public class Main
 						//choice = scan.nextLine();
 					break;
 					case 'f':
-						theHub.music.close();
 						System.out.print("Enter the name of the file : ");
 						String fileName = scan.nextLine();
 						theHub.music.loadFile(fileName);
 						theHub.music.play();
 					break;
 					case 'w':
-						theHub.music.close();
 						System.out.print("Enter the name of the title : ");
 						String titleName = scan.nextLine();
 						try {
 							AudioElement audioElement = theHub.getAudioElementByName(titleName);
-							theHub.music.loadFile(audioElement.getContent());
+							//theHub.music.loadFile(audioElement.getContent());
 							if(theHub.checkAudioFile(audioElement)) {//If the title is already in the cache
-								theHub.music.loadFile("tmp/audio/" + audioElement.getUUID().toString()); //Get the stream from the cache
+								theHub.music.loadAudioElement(audioElement); //Get the stream from the cache
 							} else { //If not, download it from the server
 								theHub.downloadAudioFileServer(audioElement);
-								theHub.music.loadFile("tmp/audio/" + audioElement.getUUID().toString());
+								theHub.music.loadAudioElement(audioElement);
 							}
 							theHub.music.play();
 						} catch (NoElementFoundException e) {
-							e.printStackTrace();
+							System.out.println(e);
 						} catch (StreamNotFoundException e) {
-								e.printStackTrace();
-							}
+							System.out.println(e);
+						} catch (IncorrectAudioFormatException e) {
+							System.out.println(e);
+						}
 					break;
 					case 'x':
 						if(theHub.music.isRunning())

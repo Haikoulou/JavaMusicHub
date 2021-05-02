@@ -7,13 +7,13 @@ public class AudioBook extends AudioElement implements Serializable{
 	private Language language;
 	private Category category;
 	
-	public AudioBook (String title, String artist, int lengthInSeconds, String uid, String content, String language, String category) {
-		super (title, artist, lengthInSeconds, uid, content);
+	public AudioBook (String title, String artist, int lengthInSeconds, String uid, String content, String language, String category, String format) {
+		super (title, artist, lengthInSeconds, uid, content, format);
 		this.setLanguage(language);
 		this.setCategory(category);
 	}
-	public AudioBook (String title, String artist, int lengthInSeconds, String content, String language, String category) {
-		super (title, artist, lengthInSeconds, content);
+	public AudioBook (String title, String artist, int lengthInSeconds, String content, String language, String category, String format) {
+		super (title, artist, lengthInSeconds, content, format);
 		this.setLanguage(language);
 		this.setCategory(category);
 	}

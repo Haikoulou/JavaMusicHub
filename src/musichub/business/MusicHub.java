@@ -46,22 +46,47 @@ public class MusicHub {
 		
 		System.out.println("Successfully received " + this.elements.size() + " elements, " + this.albums.size() + " albums and " + this.playlists.size() + " playlists.");
 		
+		//Creating temporary folders
+		try {
+			prepareTempFolders();
+		} catch (NoTempFolderException t) {
+			System.out.println("Warning during the configuration. Please see logs for more details.");
+		}
+		
 		this.music = new MusicHandler();
 	}
 	
+	public void prepareTempFolders() throws NoTempFolderException {
+		File tmp = new File("tmp");
+		File audio = new File("tmp/audio");
+		if(tmp == null || !tmp.isDirectory()) {
+			if(!audio.mkdirs()) throw new NoTempFolderException("The program cannot create the tmp/audio folder. Some features will not work correctly.");
+		}
+		else {
+			if(!tmp.canWrite()) throw new NoTempFolderException("The program cannot write into the tmp/audio folder. Some features will not work correctly.");
+			else {
+				if(audio == null || !audio.isDirectory())
+					if(!audio.mkdir()) throw new NoTempFolderException("The program cannot create the tmp/audio folder. Some features will not work correctly.");
+				else {
+					if(!audio.canWrite()) throw new NoTempFolderException("The program cannot write into the tmp/audio folder. Some features will not work correctly.");
+				}
+			}
+		}
+	}
+	
 	public void downloadAudioFileServer(AudioElement element) throws StreamNotFoundException{
-		boolean success = false;
 		try {
-			success = conn.getAudioFile(element);
+			conn.getAudioFile(element);
 		} catch (ConnectionLostException cle) {
 			cle.printStackTrace();
 		}
 		
-		if(success == false) throw new StreamNotFoundException("Impossible to find the title' stream from the server.");
+		File newAudioFile = new File("tmp/audio/" + element.getUUID().toString() + "." + element.getFormat());
+		if(!newAudioFile.isFile()) throw new StreamNotFoundException("Impossible to find the title' stream from the server.");
 	}
 	
 	public boolean checkAudioFile(AudioElement element) {
-		File tmpDir = new File("tmp/audio/" + element.getUUID().toString());
+		File tmpDir = new File("tmp/audio/" + element.getUUID().toString() + "." + element.getFormat());
 		return tmpDir.exists();
 	}
 	

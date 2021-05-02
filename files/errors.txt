@@ -82,3 +82,31 @@ mai 02, 2021 1:21:51 PM musichub.business.LogException <init>
 WARNING: The stream cannot be found in the cache. Please restart the program if the error persits.
 mai 02, 2021 2:39:01 PM musichub.business.LogException <init>
 WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 2:58:08 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 3:12:29 PM musichub.business.LogException <init>
+WARNING: The program cannot create the tmp/audio folder. Some features will not work correctly.
+mai 02, 2021 3:20:10 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 3:20:18 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 3:20:26 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 3:20:32 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 3:53:16 PM musichub.business.LogException <init>
+WARNING: There is no AudioElement with the title truc!
+mai 02, 2021 4:24:09 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 4:25:20 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 4:26:54 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 4:27:06 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 4:27:22 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 4:30:34 PM musichub.business.LogException <init>
+WARNING: There is no AudioElement with the title Guitare!
+mai 02, 2021 5:01:27 PM musichub.business.LogException <init>
+WARNING: This player can only play WAV files (for the moment UwU)

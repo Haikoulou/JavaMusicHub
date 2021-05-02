@@ -112,21 +112,19 @@ public class ServerConnection {
 		this.CloseConnection();
 	}
 	
-	public boolean getAudioFile(AudioElement element) throws ConnectionLostException{
-		boolean success = false;
+	public void getAudioFile(AudioElement element) throws ConnectionLostException{
 		this.connect();
 		if(!this.isConnected() || !this.isSetup()) throw new ConnectionLostException("The connexion to the server has been interrupted.");
 		
 		try {
-			OutputStream outputFile = new FileOutputStream("tmp/audio/" + element.getUUID().toString());
-			this.output.writeObject(element);
-			byte[] bytes = new byte[16*1024];
-			int count;
-	        while ((count = this.input.read(bytes)) > 0) {
-	            outputFile.write(bytes, 0, count);
-	        }
-	        success = true;
-	        outputFile.close();
+				OutputStream outputFile = new FileOutputStream("tmp/audio/" + element.getUUID().toString() + "." + element.getFormat());
+				this.output.writeObject(element);
+				byte[] bytes = new byte[16*1024];
+				int count;
+		        while ((count = this.input.read(bytes)) > 0) {
+		            outputFile.write(bytes, 0, count);
+		        }
+		        outputFile.close();
 			this.output.flush();
 		} catch  (UnknownHostException uhe) {
 			uhe.printStackTrace();
@@ -135,8 +133,6 @@ public class ServerConnection {
 		}
 		
 		this.CloseConnection();
-		
-		return success;
 	}
 	
 	public List<Album> requestAlbums() throws ConnectionLostException{

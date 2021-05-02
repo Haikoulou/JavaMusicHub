@@ -1,6 +1,7 @@
 package musichub.business;
 
 import java.io.File;
+
 import javax.sound.sampled.*;
 import javax.swing.JOptionPane;
 
@@ -32,14 +33,34 @@ public class MusicHandler {
      * @param String filepath : 
      *     path to the .wav file that will be loaded
      */ 	
+	public void loadAudioElement(AudioElement ae) throws IncorrectAudioFormatException {
+		if(!ae.getFormat().equals("wav")) throw new IncorrectAudioFormatException("This player can only play WAV files (for the moment UwU)");
+		try {
+			clip.close();
+			File file = new File("tmp/audio/" + ae.getUUID().toString() + "." + ae.getFormat());
+			AudioInputStream stream = AudioSystem.getAudioInputStream(file);
+			clip.open(stream);
+		} catch (Exception ioe) {
+			System.out.println(ioe);
+		}
+	}
+	
+	/** 
+     * <b>MusicHandler loadFile</b> 
+     * 
+     *  Load the stream into the clip from a file
+     * 
+     * @param String filepath : 
+     *     path to the .wav file that will be loaded
+     */ 	
 	public void loadFile(String filepath) {
 		try {
+			clip.close();
 			File file = new File(filepath);
 			AudioInputStream stream = AudioSystem.getAudioInputStream(file);
 			clip.open(stream);
-		}
-		catch(Exception e) {
-			JOptionPane.showMessageDialog(null, "Error : can't load music");
+		} catch (Exception ioe) {
+			System.out.println(ioe);
 		}
 	}
 	
