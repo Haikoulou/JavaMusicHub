@@ -5,6 +5,15 @@ import java.io.File;
 import javax.sound.sampled.*;
 
 public class FileStreamHandler {
+	public FileStreamHandler() {
+		try {
+			Clip clip = AudioSystem.getClip();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public AudioInputStream getStreamFile(String pathfile) {
 		AudioInputStream stream = null;
 		try {

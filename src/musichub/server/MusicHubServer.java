@@ -3,6 +3,7 @@ package musichub.server;
 import java.io.*;
 import java.net.*;
 import java.util.*;
+
 import javax.sound.sampled.*;
 
 import org.w3c.dom.Document;
@@ -17,6 +18,7 @@ import musichub.business.NoPlayListFoundException;
 import musichub.business.PlayList;
 import musichub.business.Song;
 import musichub.business.StreamNotFoundException;
+import musichub.business.AudioInputStreamSer;
 import musichub.util.*;
 
 public class MusicHubServer {
@@ -31,6 +33,7 @@ public class MusicHubServer {
 	public static final String ELEMENTS_FILE_PATH = DIR + "\\files\\elements.xml";
 	
 	private XMLHandler xmlHandler = new XMLHandler();
+	private FileStreamHandler fileStreamHandler = new FileStreamHandler();
 	
 	public MusicHubServer() {
 		//prepare lists for elements
@@ -83,12 +86,24 @@ public class MusicHubServer {
 	
 	//Elements management
 	
+	public AudioInputStreamSer getAudioStreamSer(AudioElement element) throws StreamNotFoundException {
+		AudioInputStream stream = null;
+		for(AudioElement ae : elements) {
+			if(ae.getUUID().equals(element.getUUID())) {
+				stream = fileStreamHandler.getStreamFile(element.getContent());
+			}
+		}
+		
+		if(stream == null) throw new StreamNotFoundException("Incorrect audio file path (" + element.getContent() + ") of the title " + element.getTitle());
+		AudioInputStreamSer streamSer = new AudioInputStreamSer(stream, element);
+		return streamSer;
+	}
+	
 	public AudioInputStream getAudioStream(AudioElement element) throws StreamNotFoundException {
 		AudioInputStream stream = null;
-		System.out.println(element.getContent());
 		for(AudioElement ae : elements) {
-			if(ae.equals(element)) {
-				stream = new FileStreamHandler().getStreamFile(element.getContent());
+			if(ae.getUUID().equals(element.getUUID())) {
+				stream = fileStreamHandler.getStreamFile(element.getContent());
 			}
 		}
 		

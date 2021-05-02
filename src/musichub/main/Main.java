@@ -29,6 +29,7 @@ public class Main
 	 		MusicHub theHub = null;
 	 		try {
 	 			theHub = new MusicHub ();
+	 			theHub.clearCache();
 	 		} catch (ConnectionFailureException ex){
 				System.out.println ("Erreur lors de la configuration du programme. Arret...");
 				System.exit(-1);
@@ -260,15 +261,15 @@ public class Main
 						String titleName = scan.nextLine();
 						try {
 							AudioElement audioElement = theHub.getAudioElementByName(titleName);
-							if(theHub.music.checkCache(audioElement.getUUID().toString())) {//If the title is already in the cache
-								theHub.music.loadStream(theHub.music.getCacheStream(audioElement.getUUID().toString())); //Get the stream from the cache
+							theHub.music.loadFile(audioElement.getContent());
+							if(theHub.checkAudioFile(audioElement)) {//If the title is already in the cache
+								theHub.music.loadFile("tmp/audio/" + audioElement.getUUID().toString()); //Get the stream from the cache
 							} else { //If not, download it from the server
-								theHub.music.loadStream(theHub.downloadStreamServer(audioElement)); //Get the stream from the server and cache it
+								theHub.downloadAudioFileServer(audioElement);
+								theHub.music.loadFile("tmp/audio/" + audioElement.getUUID().toString());
 							}
 							theHub.music.play();
 						} catch (NoElementFoundException e) {
-							e.printStackTrace();
-						} catch (StreamCacheBrokenException e) {
 							e.printStackTrace();
 						} catch (StreamNotFoundException e) {
 								e.printStackTrace();
@@ -303,6 +304,8 @@ public class Main
 				choice = scan.nextLine();
 			}
 			scan.close();
+			theHub.clearCache();
+			System.out.println("Bye!");
  		}
 	}
 	

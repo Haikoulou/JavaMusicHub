@@ -63,7 +63,7 @@ public class ServerInstance extends Thread {
 					}
 				} else if(inputReader instanceof AudioElement) { //Le client nous demande le fichier audio d'un element audio
 					AudioElement element = (AudioElement)inputReader;
-					sendStream(element);
+					sendAudioFile(element);
 				}
 			}
 			
@@ -116,19 +116,25 @@ public class ServerInstance extends Thread {
 		return checkElements;
 	}
 	
-	private void sendStream(AudioElement element) {
+	private void sendAudioFile(AudioElement element) {
 		try {
-			this.output.writeObject(theHubServer.getAudioStream(element));
+			InputStream inputFile = new FileInputStream(element.getContent());
+			byte[] bytes = new byte[16*1024];
+			
+			int count;
+			while((count = inputFile.read(bytes)) > 0) {
+				this.output.write(bytes, 0, count);
+			}
+			inputFile.close();
 			this.output.flush();
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		} catch (StreamNotFoundException s) {
-			s.printStackTrace();
 		}
 	}
 	
 	private void sendAudioElements() {
 		try {
+			
 			List<AudioElement> elementsToSend = theHubServer.getAudioElements();
 			this.output.writeObject(elementsToSend);
 			this.output.flush();
@@ -139,6 +145,7 @@ public class ServerInstance extends Thread {
 	
 	private void sendAlbums() {
 		try {
+			
 			List<Album> elementsToSend = theHubServer.getAlbums();
 			this.output.writeObject(elementsToSend);
 			this.output.flush();
@@ -149,6 +156,7 @@ public class ServerInstance extends Thread {
 	
 	private void sendPlaylists() {
 		try {
+			
 			List<PlayList> elementsToSend = theHubServer.getPlaylists();
 			this.output.writeObject(elementsToSend);
 			this.output.flush();

@@ -46,3 +46,39 @@ mai 01, 2021 5:38:34 PM musichub.business.LogException <init>
 WARNING: Incorrect audio file path for the title Truc
 mai 01, 2021 5:39:35 PM musichub.business.LogException <init>
 WARNING: Incorrect audio file path (truc.wav) of the title Truc
+mai 01, 2021 5:43:53 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path (truc.wav) of the title Truc
+mai 01, 2021 5:44:15 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path (truc.wav) of the title Truc
+mai 01, 2021 5:46:12 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path (truc.wav) of the title Truc
+mai 01, 2021 5:46:30 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path (truc.wav) of the title Truc
+mai 01, 2021 5:47:17 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path (truc.wav) of the title Truc
+mai 01, 2021 5:49:27 PM musichub.business.LogException <init>
+WARNING: Incorrect audio file path (truc.wav) of the title Truc
+mai 01, 2021 5:55:18 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 01, 2021 6:07:59 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 01, 2021 6:09:47 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 12:10:34 AM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 12:11:54 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 12:20:38 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 12:23:34 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 12:25:47 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 12:28:00 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.
+mai 02, 2021 1:21:36 PM musichub.business.LogException <init>
+WARNING: The stream cannot be found in the cache. Please restart the program if the error persits.
+mai 02, 2021 1:21:51 PM musichub.business.LogException <init>
+WARNING: The stream cannot be found in the cache. Please restart the program if the error persits.
+mai 02, 2021 2:39:01 PM musichub.business.LogException <init>
+WARNING: Impossible to find the title' stream from the server.

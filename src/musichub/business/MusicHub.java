@@ -1,8 +1,7 @@
 package musichub.business;
 
 import java.util.*;
-import musichub.util.*;
-import javax.sound.sampled.*;
+import java.io.File;
 
 class SortByDate implements Comparator<Album>
 {
@@ -50,16 +49,30 @@ public class MusicHub {
 		this.music = new MusicHandler();
 	}
 	
-	public AudioInputStream downloadStreamServer(AudioElement element) throws StreamNotFoundException{
-		AudioInputStream stream = null;
+	public void downloadAudioFileServer(AudioElement element) throws StreamNotFoundException{
+		boolean success = false;
 		try {
-			stream = conn.getStream(element);
+			success = conn.getAudioFile(element);
 		} catch (ConnectionLostException cle) {
 			cle.printStackTrace();
 		}
 		
-		if(stream == null) throw new StreamNotFoundException("Impossible to find the title' stream from the server.");
-		return stream;
+		if(success == false) throw new StreamNotFoundException("Impossible to find the title' stream from the server.");
+	}
+	
+	public boolean checkAudioFile(AudioElement element) {
+		File tmpDir = new File("tmp/audio/" + element.getUUID().toString());
+		return tmpDir.exists();
+	}
+	
+	public void clearCache() {
+		File cache = new File("tmp/audio");
+		File[] files = cache.listFiles();
+		if(files != null) {
+			for(File f : files) {
+				f.delete();
+			}
+		}
 	}
 	
 	public void updateElementsServer() {
@@ -148,7 +161,6 @@ public class MusicHub {
 
 	public String getAlbumSongs (String albumTitle) throws NoAlbumFoundException {
 		Album theAlbum = null;
-		ArrayList<AudioElement> songsInAlbum = new ArrayList<AudioElement>();
 		String finalString = new String();
 		int count = 1;
 		for (Album al : albums) {

@@ -1,5 +1,7 @@
 package musichub.business;
 
+import java.io.IOException;
+
 import javax.sound.sampled.*;
 
 public class AudioInputStreamCache {
@@ -12,6 +14,11 @@ public class AudioInputStreamCache {
 	}
 	
 	public AudioInputStream getStream() {
+		try {
+			this.stream.reset();
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
 		return this.stream;
 	}
 	
