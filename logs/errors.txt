@@ -1,0 +1,8 @@
+mai 03, 2021 3:15:50 PM musichub.business.LogException <init>
+INFO: java.net.ConnectException: Connection refused: connect
+mai 03, 2021 3:18:27 PM musichub.business.LogException <init>
+WARNING: There is no AudioElement with the title helo!
+mai 03, 2021 3:23:29 PM musichub.business.LogException <init>
+INFO: java.net.ConnectException: Connection refused: connect
+mai 03, 2021 3:25:39 PM musichub.business.LogException <init>
+INFO: java.net.ConnectException: Connection refused: connect

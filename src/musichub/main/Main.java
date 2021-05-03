@@ -9,11 +9,9 @@ public class Main
 {
  	public static void main (String[] args) {
  		//Reading the arguments
- 		int server = 1;	
-		
-
- 		if(args.length >= 1)
- 			server = 0;
+ 		int server = 0;	
+ 		if(args.length >= 1) //Start the server
+ 			server = 1;
  		
  		
  		if(server == 1) {
