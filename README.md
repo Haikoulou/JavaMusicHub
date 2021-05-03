@@ -24,6 +24,7 @@ To launch the server execute runServer.bat or type:
 ```bash
 java -classpath bin musichub.main.Main server
 ```
+To start the server instance, enter the command "y"
 To launch the client execute runClient.bat or type:
 
 ```bash
