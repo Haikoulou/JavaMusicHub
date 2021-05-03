@@ -57,8 +57,6 @@ public class MusicHub {
 		this.elements = new LinkedList<AudioElement>();
 		this.conn = new ServerConnection("localhost", 6667);
 		
-		System.out.println("coucou");
-		
 		
 		System.out.println("Requesting data...");
 		this.loadAudioElementsServer();

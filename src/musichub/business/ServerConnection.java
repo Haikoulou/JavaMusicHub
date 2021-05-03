@@ -49,10 +49,10 @@ public class ServerConnection {
 	        
 	        this.CloseConnection();
 		} catch  (UnknownHostException uhe) {
-			uhe.printStackTrace();
+			throw new ConnectionFailureException(uhe.toString());
 		}
 		catch  (IOException ioe) {
-			ioe.printStackTrace();
+			throw new ConnectionFailureException(ioe.toString());
 		}
 	}
 	
