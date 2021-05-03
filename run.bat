@@ -1,2 +1,2 @@
-java -classpath bin musichub.main.Main -s
+java -classpath bin musichub.main.Main server
 pause
