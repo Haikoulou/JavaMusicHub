@@ -32,7 +32,10 @@ public class LogException extends Exception{
 			/*FileHandler allows writing runtime errors, warnings and information in the file "errors.txt"
 			* Their corresponding time stamp (date and time) are displayed by default since we use a logger.
 			*/
-			filehandler = new FileHandler("logs/errors.txt", true); 
+			if(level.contentEquals("INFO"))
+				filehandler = new FileHandler("logs/infos.txt", true);
+			else
+				filehandler = new FileHandler("logs/errors.txt", true);
 			logger.addHandler(filehandler);
 			logger.setLevel(Level.ALL);
 			SimpleFormatter formatter = new SimpleFormatter();

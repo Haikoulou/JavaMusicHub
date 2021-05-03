@@ -53,7 +53,7 @@ public class ServerInstance extends Thread {
 			Object inputReader = input.readObject();
 			
 			if(inputReader.getClass().getName() == "java.lang.String") {
-				System.out.println(socket.getRemoteSocketAddress().toString() + ": " + inputReader);
+				new LogException("INFO", socket.getRemoteSocketAddress().toString() + ": " + inputReader);
 				String inputReaderCommand = (String)inputReader;
 				
 				switch(inputReaderCommand) {
@@ -76,15 +76,15 @@ public class ServerInstance extends Thread {
 				if(inputReader instanceof List<?>) { //On controle le contenu de la liste
 					switch(this.checkListContent(inputReader)) {
 					case 1:
-						System.out.println(socket.getRemoteSocketAddress().toString() + ": UPDATE ELEMENTS");
+						new LogException("INFO", socket.getRemoteSocketAddress().toString() + ": UPDATE ELEMENTS");
 						saveElements(inputReader);
 						break;
 					case 2:
-						System.out.println(socket.getRemoteSocketAddress().toString() + ": UPDATE ALBUMS");
+						new LogException("INFO", socket.getRemoteSocketAddress().toString() + ": UPDATE ALBUMS");
 						saveAlbums(inputReader);
 						break;
 					case 3:
-						System.out.println(socket.getRemoteSocketAddress().toString() + ": UPDATE PLAYLISTS");
+						new LogException("INFO", socket.getRemoteSocketAddress().toString() + ": UPDATE PLAYLISTS");
 						savePlaylists(inputReader);
 						break;
 					default:
@@ -92,7 +92,7 @@ public class ServerInstance extends Thread {
 					}
 				} else if(inputReader instanceof AudioElement) { //Le client nous demande le fichier audio d'un element audio
 					AudioElement element = (AudioElement)inputReader;
-					System.out.println(socket.getRemoteSocketAddress().toString() + ": GET AUDIO " + element.getContent());
+					new LogException("INFO", socket.getRemoteSocketAddress().toString() + ": GET AUDIO " + element.getContent());
 					sendAudioFile(element);
 				}
 			}
