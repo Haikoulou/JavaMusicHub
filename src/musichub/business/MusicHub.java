@@ -77,8 +77,7 @@ public class MusicHub {
 		this.music = new MusicHandler();
 	}
 	
-	/** 
-	 * <b>MusicHub prepareTempFolders</b> 
+	/**  
 	 * 
 	 *  Check if tmp/audio folders exist, if the program can write in them and if not, create them.
 	 *  
@@ -105,12 +104,10 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub downloadAudioFileServer</b> 
 	 * 
 	 *  Request the audiofile of an audio file to the server and download it.
 	 *  
-	 *  @param
-	 *  	AudioElement element: concerned audio element.
+	 *  @param AudioElement element concerned audio element.
 	 *  
 	 *  @throws StreamNotFoundException
 	 *
@@ -128,12 +125,10 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub checkAudioFile</b> 
 	 * 
 	 *  Check if an audioelement is already have already been download by the program.
 	 *  
-	 *  @param
-	 *  	AudioElement element: the concerned audio element
+	 *  @param AudioElement element the concerned audio element
 	 *  
 	 *  @return boolean
 	 *
@@ -145,7 +140,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub clearCache</b> 
 	 * 
 	 *  Delete the content of the /tmp/audio content
 	 *
@@ -162,7 +156,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub updateAlbumsServer</b> 
 	 * 
 	 *  Send the new list of albums to the server.
 	 *
@@ -177,7 +170,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub updatePlaylistsServer</b> 
 	 * 
 	 *  Send the new list of playlists to the server.
 	 *
@@ -192,7 +184,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub addElement</b> 
 	 * 
 	 *  Add a new audio element into the list of audio elements.
 	 *
@@ -203,7 +194,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub addAlbum</b> 
 	 * 
 	 *  Add a new album into the list of albums.
 	 *
@@ -214,7 +204,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub addPlaylists</b> 
 	 * 
 	 *  Add a new playlist into the list of playlists.
 	 *
@@ -225,12 +214,10 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub deletePlayList</b> 
 	 * 
 	 *  Delete a playlist from the playlists list.
 	 *  
-	 *  @param
-	 *  	String playListTitle: title of the concerned playlist
+	 *  @param String playListTitle title of the concerned playlist
 	 *  
 	 *  @throws NoPlayListFoundException
 	 *
@@ -265,11 +252,10 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub getAlbumsTitlesSortedByDate</b> 
 	 * 
 	 *  Create a string of the list of albums, sorted by date.
 	 *  
-	 *  @return String
+	 *  @return String the list of titles
 	 *
 	 */ 
 	
@@ -282,11 +268,10 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub getAudiobooksTitlesSortedByAuthor</b> 
 	 * 
 	 *  Create a string of the list of audiobooks, sorted by author.
 	 *  
-	 *  @return String
+	 *  @return String the list of titles
 	 *
 	 */ 
 	
@@ -303,14 +288,12 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub getAlbumsSongs</b> 
 	 * 
 	 *  Create a string of the list of songs in a album.
 	 *  
-	 *  @param
-	 *  	String albumTitle: title of the concerned album.
+	 *  @param String albumTitle title of the concerned album.
 	 *  
-	 *  @return String
+	 *  @return String the list of titles
 	 *
 	 */ 
 
@@ -342,14 +325,12 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub getAlbumsSongsSortedByGenre</b> 
 	 * 
 	 *  Create a string of the list of songs in a album, sorted by genre.
 	 *  
-	 *  @param
-	 *  	String albumTitle: title of the concerned album.
+	 *  @param String albumTitle title of the concerned album.
 	 *  
-	 *  @return String
+	 *  @return String the list of albums
 	 *
 	 */ 
 	
@@ -377,13 +358,11 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub addElementToPlayList</b> 
 	 * 
 	 *  Add an audio element into a playlist.
 	 *  
-	 *  @param
-	 *  	String elementTitle: title of the audio element
-	 *  	String playListTitle: title of the playlist where we want to add the audio element.
+	 *  @param String elementTitle title of the audio element
+	 *  @param String playListTitle title of the playlist where we want to add the audio element.
 	 *
 	 */ 
 	
@@ -421,14 +400,12 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub getUuidByName</b> 
 	 * 
 	 *  Return the Uuid of an audio element by its name.
 	 *  
-	 *  @param
-	 *  	String name: name of the audio element
+	 *  @param String name name of the audio element
 	 *  
-	 *  @return String
+	 *  @return String The UUID
 	 *
 	 */ 
 	
@@ -446,14 +423,12 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub getAudioElementByName</b> 
 	 * 
 	 *  Return an audio element from the list by its name.
 	 *  
-	 *  @param
-	 *  	String name: name of the audio element
+	 *  @param String name name of the audio element
 	 *  
-	 *  @return AudioElement
+	 *  @return AudioElement the Audio Element
 	 *
 	 */ 
 	
@@ -471,7 +446,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub loadAudioElementsServer</b> 
 	 * 
 	 *  Request the list of audio elements to the server
 	 *
@@ -492,7 +466,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub loadPlaylistsServer</b> 
 	 * 
 	 *  Request the list of playlists to the server
 	 *
@@ -514,7 +487,6 @@ public class MusicHub {
 	}
 	
 	/** 
-	 * <b>MusicHub loadAlbumsServer</b> 
 	 * 
 	 *  Request the list of albums to the server
 	 *

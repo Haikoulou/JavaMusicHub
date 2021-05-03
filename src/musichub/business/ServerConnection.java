@@ -26,9 +26,8 @@ public class ServerConnection {
 	 * 
 	 *  Launch the connection with the specified parameters.
 	 *  
-	 *  @param
-	 *  	String ip: ip address of the remote server
-	 *  	int port: port of the remote server
+	 *  @param 	String ip ip address of the remote server
+	 *  @param	int port port of the remote server
 	 *  
 	 *  @throws ConnectionFailureException
 	 *
@@ -58,13 +57,13 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub requestAudioElements</b> 
 	 * 
 	 *  Request a list of audio elements to the server, deserialize the response, check if it is the requested element and return it.
 	 *  
-	 *  @return List<AudioElement>
+	 *  @return		the list of audio elements
+	 *  @see		List<AudioElement> 
 	 *  
-	 *  @throws ConnectionLostException
+	 *  @throws 	ConnectionLostException
 	 *
 	 */ 
 	
@@ -95,12 +94,10 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub sendElements</b> 
 	 * 
 	 *  Send a list of audio elements to the server.
 	 *  
-	 *  @param
-	 *  	List<AudioElement> elements: list of audio elements
+	 *  @param	List<AudioElement> elements list of audio elements
 	 *  
 	 *  @throws ConnectionLostException
 	 *
@@ -124,12 +121,10 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub sendAlbums</b> 
 	 * 
 	 *  Send a list of albums to the server.
 	 *  
-	 *  @param
-	 *  	List<Album> elements: list of albums
+	 *  @param List<Album> elements list of albums
 	 *  
 	 *  @throws ConnectionLostException
 	 *
@@ -153,12 +148,10 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub sendPlaylists</b> 
 	 * 
 	 *  Send a list of playlists to the server.
 	 *  
-	 *  @param
-	 *  	List<PLayList> elements: list of playlists
+	 *  @param	List<PlayList> elements list of playlists
 	 *  
 	 *  @throws ConnectionLostException
 	 *
@@ -182,12 +175,10 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub getAudioFile</b> 
 	 * 
 	 *  Request an audio file from the server, open a new file in the tmp/audio folder with its UUID as name, write it and close it.
 	 *  
-	 *  @param
-	 *  	AudioElement element: concerned audio element
+	 *  @param	AudioElement element concerned audio element
 	 *  
 	 *  @throws ConnectionLostException
 	 *
@@ -217,11 +208,11 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub requestAlbums</b> 
 	 * 
 	 *  Request a list of albums to the server, deserialize the response, check if it is the requested element and return it.
 	 *  
-	 *  @return List<Album>
+	 *  @return	The list of albums
+	 *  @see 	List<Album>
 	 *  
 	 *  @throws ConnectionLostException
 	 *
@@ -253,11 +244,11 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub requestPlaylists</b> 
 	 * 
 	 *  Request a list of playlists to the server, deserialize the response, check if it is the requested element and return it.
 	 *  
-	 *  @return List<PlayList>
+	 *  @return the list of playlists
+	 *  @see 	List<PlayList>
 	 *  
 	 *  @throws ConnectionLostException
 	 *
@@ -290,7 +281,6 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub isSetup</b> 
 	 * 
 	 *  Checks if a connection has been set up or not.
 	 *  
@@ -306,7 +296,6 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub isSetup</b> 
 	 * 
 	 *  Checks if the client is correctly connected.
 	 *  
@@ -319,7 +308,6 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub ping</b> 
 	 * 
 	 *  Send a ping to the server, this one should reply "pong"
 	 *  
@@ -349,7 +337,6 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub connect</b> 
 	 * 
 	 *  Initiate the connection to the server.
 	 *
@@ -369,7 +356,6 @@ public class ServerConnection {
 	}
 	
 	/** 
-	 * <b>MusicHub CloseConnection</b> 
 	 * 
 	 *  Close the initated connection.
 	 *

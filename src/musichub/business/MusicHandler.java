@@ -5,6 +5,13 @@ import java.io.File;
 import javax.sound.sampled.*;
 import javax.swing.JOptionPane;
 
+/** 
+ * <b>MusicHandler Class</b> 
+ * 
+ *  @author Charles Deliere
+ * 
+ */ 
+
 public class MusicHandler {
 	
 	private Clip clip;
@@ -26,12 +33,10 @@ public class MusicHandler {
 	}
 	
 	/** 
-     * <b>MusicHandler loadFile</b> 
      * 
-     *  Load the stream into the clip from a file
+     *  Load the stream into the clip from the content of an element
      * 
-     * @param String filepath : 
-     *     path to the .wav file that will be loaded
+     * @param AudioElement ae audio element to load
      */ 	
 	public void loadAudioElement(AudioElement ae) throws IncorrectAudioFormatException {
 		if(!ae.getFormat().equals("wav")) throw new IncorrectAudioFormatException("This player can only play WAV files (for the moment UwU)");
@@ -45,13 +50,11 @@ public class MusicHandler {
 		}
 	}
 	
-	/** 
-     * <b>MusicHandler loadFile</b> 
+	/**  
      * 
      *  Load the stream into the clip from a file
      * 
-     * @param String filepath : 
-     *     path to the .wav file that will be loaded
+     * @param String filepath path to the .wav file that will be loaded
      */ 	
 	public void loadFile(String filepath) {
 		try {
@@ -65,7 +68,6 @@ public class MusicHandler {
 	}
 	
     /** 
-     * <b>MusicHandler rewind</b> 
      * 
      *  Sets the audio back by 5 seconds
      * 
@@ -80,7 +82,6 @@ public class MusicHandler {
 	}
 	
     /** 
-     * <b>MusicHandler fastForward</b> 
      * 
      *  Sets the audio forward by 5 seconds
      * 
@@ -93,7 +94,6 @@ public class MusicHandler {
 	}
 	
     /** 
-     * <b>MusicHandler play</b> 
      * 
      *  Plays the audio if paused, does nothing if the audio is already playing
      * 
@@ -107,7 +107,6 @@ public class MusicHandler {
 	}
 	
     /** 
-     * <b>MusicHandler pause</b> 
      * 
      *  Pauses the lecture of the audio
      * 
@@ -121,7 +120,6 @@ public class MusicHandler {
 	}
 	
     /** 
-     * <b>MusicHandler reset</b> 
      * 
      *  Audio starts over from the beginning 
      * 
@@ -135,7 +133,6 @@ public class MusicHandler {
 	}
 	
     /** 
-     * <b>MusicHandler close</b> 
      * 
      *  closes the audio clip object
      * 
@@ -149,7 +146,6 @@ public class MusicHandler {
 	}
 	
 	/** 
-     * <b>MusicHandler isRunning</b> 
      * 
      *  returns if a title is being played or not
      * 

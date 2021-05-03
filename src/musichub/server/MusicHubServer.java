@@ -70,12 +70,10 @@ public class MusicHubServer extends Thread {
 	//Server management
 	
 	/** 
-	 * <b>MusicHubServer launch</b> 
 	 * 
 	 * Start the server and wait for a connection. Launch the ServerInstance in a new thread if a new client is connected.
 	 * 
-	 *  @param 
-	 *  	int port: the port where the server should listen
+	 *  @param int port the port where the server should listen
 	 *
 	 */ 
 	
@@ -101,7 +99,6 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer close</b> 
 	 * 
 	 * Close the server.
 	 * 
@@ -118,30 +115,6 @@ public class MusicHubServer extends Thread {
 			}
 		}
 	}
-	
-	//Elements management
-	
-	/** 
-	 * <b>MusicHubServer getAudioStream</b> 
-	 * 
-	 * Start the server and wait for a connection. Launch the ServerInstance in a new thread if a new client is connected.
-	 * 
-	 *  @param 
-	 *  	int port: the port where the server should listen
-	 *
-	
-	
-	public AudioInputStream getAudioStream(AudioElement element) throws StreamNotFoundException {
-		AudioInputStream stream = null;
-		for(AudioElement ae : elements) {
-			if(ae.getUUID().equals(element.getUUID())) {
-				stream = fileStreamHandler.getStreamFile(element.getContent());
-			}
-		}
-		
-		if(stream == null) throw new StreamNotFoundException("Incorrect audio file path (" + element.getContent() + ") of the title " + element.getTitle());
-		return stream;
-	} */
 	
 	public Iterator<Album> albums() { 
 		return albums.listIterator();
@@ -168,12 +141,10 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer addElement</b> 
 	 * 
 	 * Add an audio element into the list.
 	 * 
-	 *  @param 
-	 *  	AudioElement element: the AudioElement to add in the list.
+	 *  @param AudioElement element the AudioElement to add in the list.
 	 *
 	 */ 
 	
@@ -182,12 +153,10 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer addAlbum</b> 
 	 * 
 	 * Add an album into the list.
 	 * 
-	 *  @param 
-	 *  	Album album: the album to add in the list.
+	 *  @param Album album the album to add in the list.
 	 *
 	 */ 
 	
@@ -196,12 +165,10 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer addEPlaylist</b> 
 	 * 
 	 * Add a playlist into the list.
 	 * 
-	 *  @param 
-	 *  	PlayList playlist: the playlist to add in the list.
+	 *  @param PlayList playlist the playlist to add in the list.
 	 *
 	 */ 
 	
@@ -210,12 +177,10 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer updateElements</b> 
 	 * 
 	 * Replace the elements list with a new one.
 	 * 
-	 *  @param 
-	 *  	List<AudioElement> list: the new list.
+	 *  @param List<AudioElement> list the new list.
 	 *
 	 */ 
 	
@@ -224,12 +189,10 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer updateAlbums</b> 
 	 * 
 	 * Replace the albums list with a new one.
 	 * 
-	 *  @param 
-	 *  	List<Album> list: the new list.
+	 *  @paramList<Album> list the new list.
 	 *
 	 */ 
 	
@@ -238,12 +201,10 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer updatePlaylists</b> 
 	 * 
 	 * Replace the playlists list with a new one.
 	 * 
-	 *  @param 
-	 *  	List<PlayList> list: the new list.
+	 *  @param List<PlayList> list the new list.
 	 *
 	 */ 
 	
@@ -252,12 +213,10 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer deletePlaylist</b> 
 	 * 
 	 * Delete a playlist from the list.
 	 * 
-	 *  @param 
-	 *  	String playlistTitle: the name of the playlist to delete.
+	 *  @param String playlistTitle the name of the playlist to delete.
 	 *  
 	 *  @throws NoPlayListFoundException
 	 *
@@ -280,13 +239,11 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer addElementToAlbum</b> 
 	 * 
 	 * Add an audio element to an album.
 	 * 
-	 *  @param 
-	 *  	String elementTitle: title of the audio element to add
-	 *  	String albumTitle: title of the album
+	 *  @param 	String elementTitle title of the audio element to add
+	 *  @param	String albumTitle title of the album
 	 *  
 	 *  @throws NoAlbumFoundException, NoElementFoundException
 	 *
@@ -325,7 +282,6 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer loadElements</b> 
 	 * 
 	 * Read elements from the XML file and load them into the elements list.
 	 *
@@ -359,7 +315,6 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer loadAlbums</b> 
 	 * 
 	 * Read albums from the XML file and load them into the albums list.
 	 *
@@ -384,7 +339,6 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer loadPlaylists</b> 
 	 * 
 	 * Read playlists from the XML file and load them into the playlists list.
 	 *
@@ -409,7 +363,6 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer saveAlbums</b> 
 	 * 
 	 * Write the content of the albums list into the XML file.
 	 *
@@ -432,7 +385,6 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer savePlaylists</b> 
 	 * 
 	 * Write the content of the playlists list into the XML file.
 	 *
@@ -455,7 +407,6 @@ public class MusicHubServer extends Thread {
 	}
 	
 	/** 
-	 * <b>MusicHubServer saveElements</b> 
 	 * 
 	 * Write the content of the audio elements list into the XML file.
 	 *

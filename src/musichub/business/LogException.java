@@ -5,18 +5,22 @@ import java.io.IOException;
 import java.util.logging.*;
 
 /**
- * 
+ *  <b>LogException Class</b>
  * @author Julie 
- *
- */
-
-/**
- * @param args
  */
 
 /* Implementation of the error logging system*/
 
 public class LogException extends Exception{
+	
+	/**
+	 *  <b>LogException Constructor</b>
+	 *  
+	 *  Write the exception into a file.
+	 *  
+	 * 	@param String level level of the exceptiob
+	 *  @param String msg message to write in the exception
+	 */
 	
 	public LogException(String level, String msg) {
 		
@@ -28,7 +32,7 @@ public class LogException extends Exception{
 			/*FileHandler allows writing runtime errors, warnings and information in the file "errors.txt"
 			* Their corresponding time stamp (date and time) are displayed by default since we use a logger.
 			*/
-			filehandler = new FileHandler("files/errors.txt", true); 
+			filehandler = new FileHandler("logs/errors.txt", true); 
 			logger.addHandler(filehandler);
 			logger.setLevel(Level.ALL);
 			SimpleFormatter formatter = new SimpleFormatter();

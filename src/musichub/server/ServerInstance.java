@@ -28,9 +28,8 @@ public class ServerInstance extends Thread {
 	 * 
 	 *  Prepare the thread.
 	 *  
-	 *  @param
-	 *  	Socket s: the socket created by the connection
-	 *  	MusicHubServer theHubServer: pointer to the HubServer
+	 *  @param Socket s the socket created by the connection
+	 *  @param MusicHubServer theHubServer: pointer to the HubServer
 	 *
 	 */ 
 	
@@ -120,10 +119,9 @@ public class ServerInstance extends Thread {
 	 * 
 	 * Control the content of a received list and return the type of the list (1: AudioElement, 2: Album, 3: PlayList, 0: error)
 	 * 
-	 * @param
-	 * 	Object inputReader: the list to analyze
+	 * @param Object inputReader: the list to analyze
 	 * 
-	 * @return int 
+	 * @return int the type of the list
 	 *
 	 */ 
 	
@@ -163,8 +161,7 @@ public class ServerInstance extends Thread {
 	 * 
 	 * Send to the client an audio file stored on the server.
 	 * 
-	 * @param
-	 * 		AudioElement element: the audio element associated
+	 * @param AudioElement element the audio element associated
 	 *
 	 */ 
 	
@@ -243,8 +240,7 @@ public class ServerInstance extends Thread {
 	 * 
 	 * Save a new list of audio elements into the memory, via the MusicHubServer
 	 * 
-	 * @param
-	 * 		Object inputList: the list of audio elements
+	 * @param Object inputList the list of audio elements
 	 *
 	 */ 
 	
@@ -260,8 +256,7 @@ public class ServerInstance extends Thread {
 	 * 
 	 * Save a new list of albums into the memory, via the MusicHubServer
 	 * 
-	 * @param
-	 * 		Object inputList: the list of albums
+	 * @param Object inputList the list of albums
 	 *
 	 */ 
 	
@@ -277,8 +272,7 @@ public class ServerInstance extends Thread {
 	 * 
 	 * Save a new list of playlists into the memory, via the MusicHubServer
 	 * 
-	 * @param
-	 * 		Object inputList: the list of playlists
+	 * @param Object inputList the list of playlists
 	 *
 	 */ 
 	
