@@ -1,0 +1,8 @@
+mai 03, 2021 3:07:53 PM musichub.business.LogException <init>
+INFO: java.net.ConnectException: Connection refused: connect
+mai 03, 2021 3:08:21 PM musichub.business.LogException <init>
+INFO: java.net.ConnectException: Connection refused: connect
+mai 03, 2021 3:09:26 PM musichub.business.LogException <init>
+INFO: java.net.ConnectException: Connection refused: connect
+mai 03, 2021 3:09:35 PM musichub.business.LogException <init>
+INFO: java.net.ConnectException: Connection refused: connect
