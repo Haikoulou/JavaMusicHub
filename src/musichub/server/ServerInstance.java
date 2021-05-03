@@ -1,14 +1,20 @@
 package musichub.server;
 
 import java.io.*;
+
 import java.net.*;
 import java.util.*;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
 import musichub.business.*;
+
+/** 
+ * <b>ServerInstance Class</b> 
+ * 
+ *  Handle the connection with a client.
+ *  
+ *  @author Elouan Toy
+ *
+ */ 
 
 public class ServerInstance extends Thread {
 	private Socket socket;
@@ -17,18 +23,33 @@ public class ServerInstance extends Thread {
 	
 	private MusicHubServer theHubServer;
 	
+	/** 
+	 * <b>ServerInstance constructor</b> 
+	 * 
+	 *  Prepare the thread.
+	 *  
+	 *  @param
+	 *  	Socket s: the socket created by the connection
+	 *  	MusicHubServer theHubServer: pointer to the HubServer
+	 *
+	 */ 
+	
 	public ServerInstance(Socket s, MusicHubServer theHubServer) {
 		this.socket = s;
 		this.theHubServer = theHubServer;
 	}
 	
+	/** 
+	 * <b>ServerInstance run</b> 
+	 * 
+	 * Executed when the client is connected. Deserialize input data and read it to determine if it is a command or not.
+	 *
+	 */ 
+	
 	public void run () {
 		try {
 			this.input = new ObjectInputStream(socket.getInputStream());
 			this.output = new ObjectOutputStream(socket.getOutputStream());
-			
-			
-			System.out.println("REC : " + socket.getInputStream().toString());
 			
 			Object inputReader = input.readObject();
 			
@@ -53,16 +74,18 @@ public class ServerInstance extends Thread {
 				}
 			}
 			else { //Il faut determiner quel type d'objet le serveur a reçu
-				System.out.println("Server received an object: " + inputReader.getClass().toString() + " from " + socket.getRemoteSocketAddress().toString());
 				if(inputReader instanceof List<?>) { //On controle le contenu de la liste
 					switch(this.checkListContent(inputReader)) {
 					case 1:
+						System.out.println(socket.getRemoteSocketAddress().toString() + ": UPDATE ELEMENTS");
 						saveElements(inputReader);
 						break;
 					case 2:
+						System.out.println(socket.getRemoteSocketAddress().toString() + ": UPDATE ALBUMS");
 						saveAlbums(inputReader);
 						break;
 					case 3:
+						System.out.println(socket.getRemoteSocketAddress().toString() + ": UPDATE PLAYLISTS");
 						savePlaylists(inputReader);
 						break;
 					default:
@@ -70,13 +93,8 @@ public class ServerInstance extends Thread {
 					}
 				} else if(inputReader instanceof AudioElement) { //Le client nous demande le fichier audio d'un element audio
 					AudioElement element = (AudioElement)inputReader;
+					System.out.println(socket.getRemoteSocketAddress().toString() + ": GET AUDIO " + element.getContent());
 					sendAudioFile(element);
-					/*
-					try {
-						sendAudioStream(element);
-					} catch (IncorrectAudioFormatException e) {
-						System.out.println(e);
-					}*/
 				}
 			}
 			
@@ -97,12 +115,23 @@ public class ServerInstance extends Thread {
 		}
 	}
 	
+	/** 
+	 * <b>ServerInstance checkListContent</b> 
+	 * 
+	 * Control the content of a received list and return the type of the list (1: AudioElement, 2: Album, 3: PlayList, 0: error)
+	 * 
+	 * @param
+	 * 	Object inputReader: the list to analyze
+	 * 
+	 * @return int 
+	 *
+	 */ 
+	
 	private int checkListContent(Object inputReader) {
 		List<Object> list = new ArrayList<Object>();
 		list = (List<Object>)inputReader;
 		int checkElements = 0; //0: nd, 1: elements, 2: albums, 3: playlists
 		for(Object obj : list) {
-			System.out.println("recu " + obj.getClass().getName());
 			if(checkElements == 0) { //On determine par le premier element quelle liste on est censé avoir
 				if(obj.getClass().getName() == "musichub.business.Song" || obj.getClass().getName() == "musichub.business.AudioBook")
 					checkElements = 1;
@@ -129,9 +158,18 @@ public class ServerInstance extends Thread {
 		return checkElements;
 	}
 	
+	/** 
+	 * <b>ServerInstance sendAudioFile</b> 
+	 * 
+	 * Send to the client an audio file stored on the server.
+	 * 
+	 * @param
+	 * 		AudioElement element: the audio element associated
+	 *
+	 */ 
+	
 	private void sendAudioFile(AudioElement element) {
 		try {
-			System.out.println("Sending " + element.getContent());
 			InputStream inputFile = new FileInputStream("files/content/" + element.getContent());
 			byte[] bytes = new byte[16*1024];
 			
@@ -146,28 +184,12 @@ public class ServerInstance extends Thread {
 		}
 	}
 	
-	private void sendAudioStream(AudioElement ae) throws IncorrectAudioFormatException {
-		if(!ae.getFormat().equals("wav")) throw new IncorrectAudioFormatException("This player can only play WAV files (for the moment UwU)");
-		try {
-			System.out.println("Sending " + ae.getContent());
-			//InputStream inputFile = new FileInputStream("files/content/" + element.getContent());
-			File audioFile = new File("files/content/" + ae.getContent());
-			AudioInputStream stream = AudioSystem.getAudioInputStream(audioFile);
-			InputStream inputStream = new AudioInputStream(stream, stream.getFormat(), stream.getFrameLength());
-			byte[] bytes = new byte[16*1024];
-			
-			int count;
-			while((count = inputStream.read(bytes)) > 0) {
-				this.output.write(bytes, 0, count);
-			}
-			inputStream.close();
-			this.output.flush();
-		} catch (IOException ioe) {
-			ioe.printStackTrace();
-		} catch (UnsupportedAudioFileException ioe) {
-			ioe.printStackTrace();
-		}
-	}
+	/** 
+	 * <b>ServerInstance sendAudioElements</b> 
+	 * 
+	 * Send the list of AudioElements to the client.
+	 *
+	 */ 
 	
 	private void sendAudioElements() {
 		try {
@@ -180,6 +202,13 @@ public class ServerInstance extends Thread {
 		}
 	}
 	
+	/** 
+	 * <b>ServerInstance sendAlbums</b> 
+	 * 
+	 * Send the albums list to the client.
+	 *
+	 */ 
+	
 	private void sendAlbums() {
 		try {
 			
@@ -190,6 +219,13 @@ public class ServerInstance extends Thread {
 			ioe.printStackTrace();
 		}
 	}
+	
+	/** 
+	 * <b>ServerInstance sendPlaylists</b> 
+	 * 
+	 * Send the playlists list to the client.
+	 *
+	 */ 
 	
 	private void sendPlaylists() {
 		try {
@@ -202,6 +238,16 @@ public class ServerInstance extends Thread {
 		}
 	}
 	
+	/** 
+	 * <b>ServerInstance saveElements</b> 
+	 * 
+	 * Save a new list of audio elements into the memory, via the MusicHubServer
+	 * 
+	 * @param
+	 * 		Object inputList: the list of audio elements
+	 *
+	 */ 
+	
 	private void saveElements(Object inputList) {
 		List<AudioElement> list = new ArrayList<AudioElement>();
 		list = (List<AudioElement>)inputList;
@@ -209,12 +255,32 @@ public class ServerInstance extends Thread {
 		theHubServer.saveElements();
 	}
 	
+	/** 
+	 * <b>ServerInstance saveAlbums</b> 
+	 * 
+	 * Save a new list of albums into the memory, via the MusicHubServer
+	 * 
+	 * @param
+	 * 		Object inputList: the list of albums
+	 *
+	 */ 
+	
 	private void saveAlbums(Object inputList) {
 		List<Album> list = new ArrayList<Album>();
 		list = (List<Album>)inputList;
 		theHubServer.updateAlbums(list);
 		theHubServer.saveAlbums();
 	}
+	
+	/** 
+	 * <b>ServerInstance savePlaylists</b> 
+	 * 
+	 * Save a new list of playlists into the memory, via the MusicHubServer
+	 * 
+	 * @param
+	 * 		Object inputList: the list of playlists
+	 *
+	 */ 
 	
 	private void savePlaylists(Object inputList) {
 		List<PlayList> list = new ArrayList<PlayList>();

@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-import javax.sound.sampled.*;
+//import javax.sound.sampled.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,8 +19,17 @@ import musichub.business.NoElementFoundException;
 import musichub.business.NoPlayListFoundException;
 import musichub.business.PlayList;
 import musichub.business.Song;
-import musichub.business.StreamNotFoundException;
+//import musichub.business.StreamNotFoundException;
 import musichub.util.*;
+
+/** 
+ * <b>MusicHubServer Class</b> 
+ * 
+ *  Handle the MusicHub on the server.
+ *  
+ *  @author Elouan Toy
+ *
+ */ 
 
 public class MusicHubServer extends Thread {
 	private List<Album> albums;
@@ -35,7 +44,14 @@ public class MusicHubServer extends Thread {
 	public static final String AUDIOFILES_FILE_PATH = DIR + "\\files\\content\\";
 	
 	private XMLHandler xmlHandler = new XMLHandler();
-	private FileStreamHandler fileStreamHandler = new FileStreamHandler();
+	//private FileStreamHandler fileStreamHandler = new FileStreamHandler();
+	
+	/** 
+	 * <b>MusicHubServer constructor</b> 
+	 * 
+	 *  Prepare the MusicHub by reading XML files and loading them in memory.
+	 *
+	 */ 
 	
 	public MusicHubServer() {
 		//prepare lists for elements
@@ -52,6 +68,16 @@ public class MusicHubServer extends Thread {
 	}
 	
 	//Server management
+	
+	/** 
+	 * <b>MusicHubServer launch</b> 
+	 * 
+	 * Start the server and wait for a connection. Launch the ServerInstance in a new thread if a new client is connected.
+	 * 
+	 *  @param 
+	 *  	int port: the port where the server should listen
+	 *
+	 */ 
 	
 	public void launch(int port) {
 		try {
@@ -74,6 +100,14 @@ public class MusicHubServer extends Thread {
 		}
 	}
 	
+	/** 
+	 * <b>MusicHubServer close</b> 
+	 * 
+	 * Close the server.
+	 * 
+	 *
+	 */ 
+	
 	public void close() {
 		if (ss != null && !ss.isClosed()) {
 			System.out.println("Closing connection...");
@@ -87,6 +121,16 @@ public class MusicHubServer extends Thread {
 	
 	//Elements management
 	
+	/** 
+	 * <b>MusicHubServer getAudioStream</b> 
+	 * 
+	 * Start the server and wait for a connection. Launch the ServerInstance in a new thread if a new client is connected.
+	 * 
+	 *  @param 
+	 *  	int port: the port where the server should listen
+	 *
+	
+	
 	public AudioInputStream getAudioStream(AudioElement element) throws StreamNotFoundException {
 		AudioInputStream stream = null;
 		for(AudioElement ae : elements) {
@@ -97,7 +141,7 @@ public class MusicHubServer extends Thread {
 		
 		if(stream == null) throw new StreamNotFoundException("Incorrect audio file path (" + element.getContent() + ") of the title " + element.getTitle());
 		return stream;
-	}
+	} */
 	
 	public Iterator<Album> albums() { 
 		return albums.listIterator();
@@ -123,29 +167,101 @@ public class MusicHubServer extends Thread {
 		return this.playlists;
 	}
 	
+	/** 
+	 * <b>MusicHubServer addElement</b> 
+	 * 
+	 * Add an audio element into the list.
+	 * 
+	 *  @param 
+	 *  	AudioElement element: the AudioElement to add in the list.
+	 *
+	 */ 
+	
 	public void addElement(AudioElement element) {
 		elements.add(element);
 	}
+	
+	/** 
+	 * <b>MusicHubServer addAlbum</b> 
+	 * 
+	 * Add an album into the list.
+	 * 
+	 *  @param 
+	 *  	Album album: the album to add in the list.
+	 *
+	 */ 
 	
 	public void addAlbum(Album album) {
 		albums.add(album);
 	}
 	
+	/** 
+	 * <b>MusicHubServer addEPlaylist</b> 
+	 * 
+	 * Add a playlist into the list.
+	 * 
+	 *  @param 
+	 *  	PlayList playlist: the playlist to add in the list.
+	 *
+	 */ 
+	
 	public void addPlaylist(PlayList playlist) {
 		playlists.add(playlist);
 	}
+	
+	/** 
+	 * <b>MusicHubServer updateElements</b> 
+	 * 
+	 * Replace the elements list with a new one.
+	 * 
+	 *  @param 
+	 *  	List<AudioElement> list: the new list.
+	 *
+	 */ 
 	
 	public void updateElements(List<AudioElement> list) {
 		elements = list;
 	}
 	
+	/** 
+	 * <b>MusicHubServer updateAlbums</b> 
+	 * 
+	 * Replace the albums list with a new one.
+	 * 
+	 *  @param 
+	 *  	List<Album> list: the new list.
+	 *
+	 */ 
+	
 	public void updateAlbums(List<Album> list) {
 		albums = list;
 	}
 	
+	/** 
+	 * <b>MusicHubServer updatePlaylists</b> 
+	 * 
+	 * Replace the playlists list with a new one.
+	 * 
+	 *  @param 
+	 *  	List<PlayList> list: the new list.
+	 *
+	 */ 
+	
 	public void updatePlaylists(List<PlayList> list) {
 		playlists = list;
 	}
+	
+	/** 
+	 * <b>MusicHubServer deletePlaylist</b> 
+	 * 
+	 * Delete a playlist from the list.
+	 * 
+	 *  @param 
+	 *  	String playlistTitle: the name of the playlist to delete.
+	 *  
+	 *  @throws NoPlayListFoundException
+	 *
+	 */ 
 	
 	public void deletePlayList(String playListTitle) throws NoPlayListFoundException {
 		
@@ -162,6 +278,19 @@ public class MusicHubServer extends Thread {
 			result = playlists.remove(thePlayList); 
 		if (!result) throw new NoPlayListFoundException("Playlist " + playListTitle + " not found!");
 	}
+	
+	/** 
+	 * <b>MusicHubServer addElementToAlbum</b> 
+	 * 
+	 * Add an audio element to an album.
+	 * 
+	 *  @param 
+	 *  	String elementTitle: title of the audio element to add
+	 *  	String albumTitle: title of the album
+	 *  
+	 *  @throws NoAlbumFoundException, NoElementFoundException
+	 *
+	 */ 
 	
 	public void addElementToAlbum(String elementTitle, String albumTitle) throws NoAlbumFoundException, NoElementFoundException
 	{
@@ -195,6 +324,13 @@ public class MusicHubServer extends Thread {
 		
 	}
 	
+	/** 
+	 * <b>MusicHubServer loadElements</b> 
+	 * 
+	 * Read elements from the XML file and load them into the elements list.
+	 *
+	 */ 
+	
 	private void loadElements () {
 		NodeList audioelementsNodes = xmlHandler.parseXMLFile(ELEMENTS_FILE_PATH);
 		if (audioelementsNodes == null) return;
@@ -222,6 +358,13 @@ public class MusicHubServer extends Thread {
 		}
 	}
 	
+	/** 
+	 * <b>MusicHubServer loadAlbums</b> 
+	 * 
+	 * Read albums from the XML file and load them into the albums list.
+	 *
+	 */ 
+	
 	private void loadAlbums () {
 		NodeList albumNodes = xmlHandler.parseXMLFile(ALBUMS_FILE_PATH);
 		if (albumNodes == null) return;
@@ -239,6 +382,13 @@ public class MusicHubServer extends Thread {
 			}  
 		}
 	}
+	
+	/** 
+	 * <b>MusicHubServer loadPlaylists</b> 
+	 * 
+	 * Read playlists from the XML file and load them into the playlists list.
+	 *
+	 */ 
 	
 	private void loadPlaylists () {
 		NodeList playlistNodes = xmlHandler.parseXMLFile(PLAYLISTS_FILE_PATH);
@@ -258,6 +408,13 @@ public class MusicHubServer extends Thread {
 		}
 	}
 	
+	/** 
+	 * <b>MusicHubServer saveAlbums</b> 
+	 * 
+	 * Write the content of the albums list into the XML file.
+	 *
+	 */ 
+	
 	public void saveAlbums () {
 		Document document = xmlHandler.createXMLDocument();
 		if (document == null) return;
@@ -274,6 +431,13 @@ public class MusicHubServer extends Thread {
 		xmlHandler.createXMLFile(document, ALBUMS_FILE_PATH);
 	}
 	
+	/** 
+	 * <b>MusicHubServer savePlaylists</b> 
+	 * 
+	 * Write the content of the playlists list into the XML file.
+	 *
+	 */ 
+	
 	public void savePlayLists () {
 		Document document = xmlHandler.createXMLDocument();
 		if (document == null) return;
@@ -289,6 +453,13 @@ public class MusicHubServer extends Thread {
 		}
 		xmlHandler.createXMLFile(document, PLAYLISTS_FILE_PATH);
 	}
+	
+	/** 
+	 * <b>MusicHubServer saveElements</b> 
+	 * 
+	 * Write the content of the audio elements list into the XML file.
+	 *
+	 */ 
 	
 	public void saveElements() {
 		Document document = xmlHandler.createXMLDocument();

@@ -32,8 +32,6 @@ public class Main
 			System.out.print(">> ");
 			String choice = scan.nextLine();
 			
-			String albumTitle = null;
-			
 			if (choice.length() == 0) System.exit(0);						
 			
 			while (choice.charAt(0)!= 'q') 	{
@@ -357,10 +355,6 @@ public class Main
 	}
 	
 	private static void printAvailableCommandsServer() {
-		System.out.println("t: display the album titles, ordered by date");
-		System.out.println("g: display songs of an album, ordered by genre");
-		System.out.println("d: display songs of an album");
-		System.out.println("u: display audiobooks ordered by author");
 		System.out.println("c: add a new song");
 		System.out.println("a: add a new album");
 		System.out.println("+: add a song to an album");

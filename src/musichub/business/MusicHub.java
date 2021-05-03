@@ -23,6 +23,16 @@ class SortByAuthor implements Comparator<AudioElement>
 			return e1.getArtist().compareTo(e2.getArtist());
 	} 
 }
+
+/** 
+ * <b>MusicHub Class</b> 
+ * 
+ *  Handle the MusicHub on the client.
+ *  
+ *  @author Elouan Toy
+ *  @author Felicia Ionascu
+ *
+ */ 
 	
 public class MusicHub {
 	private List<Album> albums;
@@ -32,11 +42,22 @@ public class MusicHub {
 	
 	private ServerConnection conn;
 	
+	/** 
+	 * <b>MusicHub constructor</b> 
+	 * 
+	 *  Prepare the MusicHub by loading different elements into the memory from the server.
+	 *  
+	 *  @throws ConnectionFailureException
+	 *
+	 */ 
+	
 	public MusicHub () throws ConnectionFailureException {
 		this.albums = new LinkedList<Album>();
 		this.playlists = new LinkedList<PlayList>();
 		this.elements = new LinkedList<AudioElement>();
 		this.conn = new ServerConnection("localhost", 6667);
+		
+		System.out.println("coucou");
 		
 		
 		System.out.println("Requesting data...");
@@ -56,6 +77,15 @@ public class MusicHub {
 		this.music = new MusicHandler();
 	}
 	
+	/** 
+	 * <b>MusicHub prepareTempFolders</b> 
+	 * 
+	 *  Check if tmp/audio folders exist, if the program can write in them and if not, create them.
+	 *  
+	 *  @throws NoTempFolderException
+	 *
+	 */ 
+	
 	public void prepareTempFolders() throws NoTempFolderException {
 		File tmp = new File("tmp");
 		File audio = new File("tmp/audio");
@@ -74,6 +104,18 @@ public class MusicHub {
 		}
 	}
 	
+	/** 
+	 * <b>MusicHub downloadAudioFileServer</b> 
+	 * 
+	 *  Request the audiofile of an audio file to the server and download it.
+	 *  
+	 *  @param
+	 *  	AudioElement element: concerned audio element.
+	 *  
+	 *  @throws StreamNotFoundException
+	 *
+	 */ 
+	
 	public void downloadAudioFileServer(AudioElement element) throws StreamNotFoundException{
 		try {
 			conn.getAudioFile(element);
@@ -85,10 +127,29 @@ public class MusicHub {
 		if(!newAudioFile.isFile()) throw new StreamNotFoundException("Impossible to find the title' stream from the server.");
 	}
 	
+	/** 
+	 * <b>MusicHub checkAudioFile</b> 
+	 * 
+	 *  Check if an audioelement is already have already been download by the program.
+	 *  
+	 *  @param
+	 *  	AudioElement element: the concerned audio element
+	 *  
+	 *  @return boolean
+	 *
+	 */ 
+	
 	public boolean checkAudioFile(AudioElement element) {
 		File tmpDir = new File("tmp/audio/" + element.getUUID().toString() + "." + element.getFormat());
 		return tmpDir.exists();
 	}
+	
+	/** 
+	 * <b>MusicHub clearCache</b> 
+	 * 
+	 *  Delete the content of the /tmp/audio content
+	 *
+	 */ 
 	
 	public void clearCache() {
 		File cache = new File("tmp/audio/");
@@ -100,6 +161,13 @@ public class MusicHub {
 		}
 	}
 	
+	/** 
+	 * <b>MusicHub updateAlbumsServer</b> 
+	 * 
+	 *  Send the new list of albums to the server.
+	 *
+	 */ 
+	
 	public void updateAlbumsServer() {
 		try {
 			conn.sendAlbums(albums);
@@ -107,6 +175,13 @@ public class MusicHub {
 			cle.printStackTrace();
 		}
 	}
+	
+	/** 
+	 * <b>MusicHub updatePlaylistsServer</b> 
+	 * 
+	 *  Send the new list of playlists to the server.
+	 *
+	 */ 
 	
 	public void updatePlaylistsServer() {
 		try {
@@ -116,17 +191,50 @@ public class MusicHub {
 		}
 	}
 	
+	/** 
+	 * <b>MusicHub addElement</b> 
+	 * 
+	 *  Add a new audio element into the list of audio elements.
+	 *
+	 */ 
+	
 	public void addElement(AudioElement element) {
 		elements.add(element);
 	}
+	
+	/** 
+	 * <b>MusicHub addAlbum</b> 
+	 * 
+	 *  Add a new album into the list of albums.
+	 *
+	 */ 
 	
 	public void addAlbum(Album album) {
 		albums.add(album);
 	}
 	
+	/** 
+	 * <b>MusicHub addPlaylists</b> 
+	 * 
+	 *  Add a new playlist into the list of playlists.
+	 *
+	 */ 
+	
 	public void addPlaylist(PlayList playlist) {
 		playlists.add(playlist);
 	}
+	
+	/** 
+	 * <b>MusicHub deletePlayList</b> 
+	 * 
+	 *  Delete a playlist from the playlists list.
+	 *  
+	 *  @param
+	 *  	String playListTitle: title of the concerned playlist
+	 *  
+	 *  @throws NoPlayListFoundException
+	 *
+	 */ 
 	
 	public void deletePlayList(String playListTitle) throws NoPlayListFoundException {
 		
@@ -156,6 +264,15 @@ public class MusicHub {
 		return elements.listIterator();
 	}
 	
+	/** 
+	 * <b>MusicHub getAlbumsTitlesSortedByDate</b> 
+	 * 
+	 *  Create a string of the list of albums, sorted by date.
+	 *  
+	 *  @return String
+	 *
+	 */ 
+	
 	public String getAlbumsTitlesSortedByDate() {
 		StringBuffer titleList = new StringBuffer();
 		Collections.sort(albums, new SortByDate());
@@ -163,6 +280,15 @@ public class MusicHub {
 			titleList.append(" - " + al.toString()+ "\n");
 		return titleList.toString();
 	}
+	
+	/** 
+	 * <b>MusicHub getAudiobooksTitlesSortedByAuthor</b> 
+	 * 
+	 *  Create a string of the list of audiobooks, sorted by author.
+	 *  
+	 *  @return String
+	 *
+	 */ 
 	
 	public String getAudiobooksTitlesSortedByAuthor() {
 		StringBuffer titleList = new StringBuffer();
@@ -175,6 +301,18 @@ public class MusicHub {
 			titleList.append(" - " + ab.toString());
 		return titleList.toString();
 	}
+	
+	/** 
+	 * <b>MusicHub getAlbumsSongs</b> 
+	 * 
+	 *  Create a string of the list of songs in a album.
+	 *  
+	 *  @param
+	 *  	String albumTitle: title of the concerned album.
+	 *  
+	 *  @return String
+	 *
+	 */ 
 
 	public String getAlbumSongs (String albumTitle) throws NoAlbumFoundException {
 		Album theAlbum = null;
@@ -203,6 +341,18 @@ public class MusicHub {
 		
 	}
 	
+	/** 
+	 * <b>MusicHub getAlbumsSongsSortedByGenre</b> 
+	 * 
+	 *  Create a string of the list of songs in a album, sorted by genre.
+	 *  
+	 *  @param
+	 *  	String albumTitle: title of the concerned album.
+	 *  
+	 *  @return String
+	 *
+	 */ 
+	
 	public List<Song> getAlbumSongsSortedByGenre (String albumTitle) throws NoAlbumFoundException {
 		Album theAlbum = null;
 		ArrayList<Song> songsInAlbum = new ArrayList<Song>();
@@ -225,6 +375,17 @@ public class MusicHub {
 		return songsInAlbum;		
 		
 	}
+	
+	/** 
+	 * <b>MusicHub addElementToPlayList</b> 
+	 * 
+	 *  Add an audio element into a playlist.
+	 *  
+	 *  @param
+	 *  	String elementTitle: title of the audio element
+	 *  	String playListTitle: title of the playlist where we want to add the audio element.
+	 *
+	 */ 
 	
 	public void addElementToPlayList(String elementTitle, String playListTitle) throws NoPlayListFoundException, NoElementFoundException
 	{
@@ -259,6 +420,18 @@ public class MusicHub {
 		
 	}
 	
+	/** 
+	 * <b>MusicHub getUuidByName</b> 
+	 * 
+	 *  Return the Uuid of an audio element by its name.
+	 *  
+	 *  @param
+	 *  	String name: name of the audio element
+	 *  
+	 *  @return String
+	 *
+	 */ 
+	
 	public String getUuidByName(String name) throws NoElementFoundException {
 		AudioElement element = null;
 		for(AudioElement e : elements) {
@@ -272,6 +445,18 @@ public class MusicHub {
 		return element.getUUID().toString();
 	}
 	
+	/** 
+	 * <b>MusicHub getAudioElementByName</b> 
+	 * 
+	 *  Return an audio element from the list by its name.
+	 *  
+	 *  @param
+	 *  	String name: name of the audio element
+	 *  
+	 *  @return AudioElement
+	 *
+	 */ 
+	
 	public AudioElement getAudioElementByName(String name) throws NoElementFoundException {
 		AudioElement element = null;
 		for(AudioElement e : elements) {
@@ -284,6 +469,13 @@ public class MusicHub {
 		if(element == null) throw new NoElementFoundException("There is no AudioElement with the title " + name + "!");
 		return element;
 	}
+	
+	/** 
+	 * <b>MusicHub loadAudioElementsServer</b> 
+	 * 
+	 *  Request the list of audio elements to the server
+	 *
+	 */ 
 	
 	private void loadAudioElementsServer() {
 		List<AudioElement> list = new ArrayList<>();
@@ -299,6 +491,13 @@ public class MusicHub {
 		}
 	}
 	
+	/** 
+	 * <b>MusicHub loadPlaylistsServer</b> 
+	 * 
+	 *  Request the list of playlists to the server
+	 *
+	 */ 
+	
 	private void loadPlaylistsServer() {
 		List<PlayList> list = new ArrayList<>();
 		try {
@@ -313,6 +512,13 @@ public class MusicHub {
 			this.addPlaylist(playlistList);
 		}
 	}
+	
+	/** 
+	 * <b>MusicHub loadAlbumsServer</b> 
+	 * 
+	 *  Request the list of albums to the server
+	 *
+	 */ 
 	
 	private void loadAlbumsServer() {
 		List<Album> list = new ArrayList<>();
